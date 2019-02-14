@@ -1,3 +1,4 @@
+import 'package:charity_game/utils/strings.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,10 +13,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   final List<Widget> _children = [
-    PlaceholderWidget('Home'),
-    PlaceholderWidget('Explore'),
-    PlaceholderWidget('Stats'),
-    PlaceholderWidget('More')
+    PlaceholderWidget(Strings.home),
+    PlaceholderWidget(Strings.explore),
+    PlaceholderWidget(Strings.stats),
+    PlaceholderWidget(Strings.more)
   ];
 
   @override
@@ -37,19 +38,19 @@ class _HomePageState extends State<HomePage> {
         items: [
           BottomNavigationBarItem(
             icon: new Icon(Icons.home),
-            title: new Text('Home'),
+            title: new Text(Strings.home),
           ),
           BottomNavigationBarItem(
             icon: new Icon(Icons.category),
-            title: new Text('Explore'),
+            title: new Text(Strings.explore),
           ),
           BottomNavigationBarItem(
             icon: new Icon(Icons.graphic_eq),
-            title: new Text('Stats'),
+            title: new Text(Strings.stats),
           ),
           BottomNavigationBarItem(
             icon: new Icon(Icons.more_horiz),
-            title: new Text('More'),
+            title: new Text(Strings.more),
           )
         ]);
   }
