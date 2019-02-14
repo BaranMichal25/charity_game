@@ -15,6 +15,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _children = [
     PlaceholderWidget(Strings.home),
     PlaceholderWidget(Strings.explore),
+    PlaceholderWidget(Strings.history),
     PlaceholderWidget(Strings.stats),
     PlaceholderWidget(Strings.more)
   ];
@@ -43,6 +44,10 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: new Icon(Icons.category),
             title: new Text(Strings.explore),
+          ),
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.history),
+            title: new Text(Strings.history),
           ),
           BottomNavigationBarItem(
             icon: new Icon(Icons.graphic_eq),
