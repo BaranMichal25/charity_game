@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   final List<Widget> _children = [
-    PlaceholderWidget(Strings.dashboard),
+    PlaceholderWidget(Strings.home),
     PlaceholderWidget(Strings.explore),
     PlaceholderWidget(Strings.history),
     PlaceholderWidget(Strings.stats),
@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
         items: [
           BottomNavigationBarItem(
             icon: new Icon(Icons.home),
-            title: new Text(Strings.dashboard),
+            title: new Text(Strings.home),
           ),
           BottomNavigationBarItem(
             icon: new Icon(Icons.category),
