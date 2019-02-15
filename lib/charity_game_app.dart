@@ -1,4 +1,4 @@
-import 'package:charity_game/home/home_page.dart';
+import 'package:charity_game/main/main_page.dart';
 import 'package:flutter/material.dart';
 
 class CharityGameApp extends StatelessWidget {
@@ -10,7 +10,7 @@ class CharityGameApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(title: 'Charity Game'),
+      home: MainPage(title: 'Charity Game'),
     );
   }
 }
