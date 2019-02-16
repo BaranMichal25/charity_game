@@ -1,3 +1,4 @@
+import 'package:charity_game/home/home_tab.dart';
 import 'package:charity_game/utils/strings.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
   final List<Widget> _children = [
-    PlaceholderWidget(Strings.home),
+    HomeTab(),
     PlaceholderWidget(Strings.explore),
     PlaceholderWidget(Strings.history),
     PlaceholderWidget(Strings.stats),
