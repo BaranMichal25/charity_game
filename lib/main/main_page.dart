@@ -1,4 +1,5 @@
 import 'package:charity_game/home/home_tab.dart';
+import 'package:charity_game/more/more_tab.dart';
 import 'package:charity_game/utils/strings.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class _MainPageState extends State<MainPage> {
     PlaceholderWidget(Strings.explore),
     PlaceholderWidget(Strings.history),
     PlaceholderWidget(Strings.stats),
-    PlaceholderWidget(Strings.more)
+    MoreTab()
   ];
 
   @override
