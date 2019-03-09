@@ -1,3 +1,4 @@
+import 'package:charity_game/explore/explore_tab.dart';
 import 'package:charity_game/home/home_tab.dart';
 import 'package:charity_game/more/more_tab.dart';
 import 'package:charity_game/utils/strings.dart';
@@ -16,10 +17,10 @@ class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     HomeTab(),
-    PlaceholderWidget(Strings.explore),
+    ExploreTab(),
     PlaceholderWidget(Strings.history),
     PlaceholderWidget(Strings.stats),
-    MoreTab()
+    MoreTab(),
   ];
 
   @override

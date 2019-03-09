@@ -5,7 +5,7 @@ class MoreTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: <Widget>[
+      children: [
         ListTile(
           leading: Icon(Icons.person),
           title: Text(Strings.account),
