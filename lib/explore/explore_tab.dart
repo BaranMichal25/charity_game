@@ -1,6 +1,7 @@
 import 'package:charity_game/data/projects/featured_project.dart';
 import 'package:charity_game/data/projects/projects_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class ExploreTab extends StatefulWidget {
   @override
@@ -28,38 +29,55 @@ class _ExploreState extends State<ExploreTab> {
           if (snapshot.hasData) {
             final projects = snapshot.data;
 
-            return GridView.count(
-              crossAxisCount: 2,
-              children: List.generate(6, (int index) {
-                return Container(
-                  constraints: BoxConstraints.expand(
-                    height: 200.0,
-                  ),
-                  alignment: Alignment.bottomLeft,
-                  margin: EdgeInsets.all(3.0),
-                  padding: EdgeInsets.all(3.0),
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(projects[index].imageUrl),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: Text(
-                    projects[index].title,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
-                    ),
-                  ),
-                );
-              }),
-            );
+            List<StaggeredTile> _staggeredTiles = <StaggeredTile>[
+              const StaggeredTile.count(2, 1),
+              const StaggeredTile.count(1, 1),
+              const StaggeredTile.count(1, 1),
+              const StaggeredTile.count(1, 1),
+              const StaggeredTile.count(1, 1),
+            ];
+
+            return StaggeredGridView.count(
+                crossAxisCount: 2,
+                mainAxisSpacing: 4.0,
+                crossAxisSpacing: 4.0,
+                padding: EdgeInsets.all(4.0),
+                staggeredTiles: _staggeredTiles,
+                children: List.generate(
+                  5,
+                  (int index) {
+                    return _buildFeaturedProjectTile(projects[index]);
+                  },
+                ));
           } else {
             return Center(
               child: CircularProgressIndicator(),
             );
           }
         });
+  }
+
+  Widget _buildFeaturedProjectTile(FeaturedProject project) {
+    return Container(
+      constraints: BoxConstraints.expand(
+        height: 200.0,
+      ),
+      alignment: Alignment.bottomLeft,
+      padding: EdgeInsets.all(3.0),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage(project.imageUrl),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Text(
+        project.title,
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 18.0,
+        ),
+      ),
+    );
   }
 }

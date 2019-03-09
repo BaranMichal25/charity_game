@@ -1,15 +1,12 @@
 import 'package:charity_game/data/projects/featured_project.dart';
 
 class ProjectsRepository {
-  Future<List<FeaturedProject>> getFeaturedProjects([int count = 6]) async {
+  Future<List<FeaturedProject>> getFeaturedProjects([int count = 5]) async {
     return Future.delayed(Duration(seconds: 1), () {
       return List.unmodifiable([
         FeaturedProject(
             title: "Give HIV+ mothers in Kenya a future",
             imageUrl: "https://www.globalgiving.org/pfil/32427/pict_grid7.jpg"),
-        FeaturedProject(
-            title: "Make Women in Rural India Financially Secure",
-            imageUrl: "https://www.globalgiving.org/pfil/3907/pict_grid7.jpg"),
         FeaturedProject(
             title: "Sustainable Incomes for 3945 Young Organic Farmers",
             imageUrl: "https://www.globalgiving.org/pfil/6265/pict_grid7.jpg"),
