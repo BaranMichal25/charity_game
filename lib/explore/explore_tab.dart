@@ -1,5 +1,7 @@
 import 'package:charity_game/data/projects/featured_project.dart';
 import 'package:charity_game/data/projects/projects_repository.dart';
+import 'package:charity_game/data/themes/themes_repository.dart';
+import 'package:charity_game/data/themes/theme.dart' as GlobalGiving;
 import 'package:flutter/material.dart';
 
 class ExploreTab extends StatefulWidget {
@@ -8,13 +10,17 @@ class ExploreTab extends StatefulWidget {
 }
 
 class _ExploreState extends State<ExploreTab> {
-  ProjectsRepository _repository = ProjectsRepository();
+  ProjectsRepository _projectsRepository = ProjectsRepository();
+  ThemesRepository _themesRepository = ThemesRepository();
+
   Future<List<FeaturedProject>> _featuredProjects;
+  Future<List<GlobalGiving.Theme>> _themes;
 
   @override
   void initState() {
     super.initState();
-    _featuredProjects = _repository.getFeaturedProjects();
+    _featuredProjects = _projectsRepository.getFeaturedProjects();
+    _themes = _themesRepository.getThemes();
   }
 
   @override
@@ -22,6 +28,7 @@ class _ExploreState extends State<ExploreTab> {
     return ListView(
       children: [
         _buildFeaturedProjectsGrid(),
+        _buildThemesGrid(),
       ],
     );
   }
@@ -102,5 +109,36 @@ class _ExploreState extends State<ExploreTab> {
         ),
       ),
     );
+  }
+
+  Widget _buildThemesGrid() {
+    return FutureBuilder(
+        future: _themes,
+        builder: (
+          BuildContext context,
+          AsyncSnapshot<List<GlobalGiving.Theme>> snapshot,
+        ) {
+          if (snapshot.hasData) {
+            final themes = snapshot.data;
+            return SizedBox(
+              height: 100,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: themes.length,
+                  itemBuilder: (
+                    BuildContext context,
+                    int index,
+                  ) {
+                    return Chip(
+                      label: Text(themes[index].name),
+                    );
+                  }),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        });
   }
 }
