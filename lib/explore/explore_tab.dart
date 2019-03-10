@@ -1,7 +1,6 @@
 import 'package:charity_game/data/projects/featured_project.dart';
 import 'package:charity_game/data/projects/projects_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class ExploreTab extends StatefulWidget {
   @override
@@ -20,6 +19,14 @@ class _ExploreState extends State<ExploreTab> {
 
   @override
   Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        _buildFeaturedProjectsGrid(),
+      ],
+    );
+  }
+
+  Widget _buildFeaturedProjectsGrid() {
     return FutureBuilder(
         future: _featuredProjects,
         builder: (
@@ -28,27 +35,42 @@ class _ExploreState extends State<ExploreTab> {
         ) {
           if (snapshot.hasData) {
             final projects = snapshot.data;
-
-            List<StaggeredTile> _staggeredTiles = [
-              const StaggeredTile.fit(2),
-              const StaggeredTile.fit(1),
-              const StaggeredTile.fit(1),
-              const StaggeredTile.fit(1),
-              const StaggeredTile.fit(1),
-            ];
-
-            return StaggeredGridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 4.0,
-                crossAxisSpacing: 4.0,
-                padding: EdgeInsets.all(4.0),
-                staggeredTiles: _staggeredTiles,
-                children: List.generate(
-                  5,
-                  (int index) {
-                    return _buildFeaturedProjectTile(projects[index]);
-                  },
-                ));
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: _buildFeaturedProjectTile(projects[0]),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.fromLTRB(4.0, 0.0, 2.0, 2.0),
+                      child: _buildFeaturedProjectTile(projects[1]),
+                    )),
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.fromLTRB(2.0, 0.0, 4.0, 2.0),
+                      child: _buildFeaturedProjectTile(projects[2]),
+                    )),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.fromLTRB(4.0, 2.0, 2.0, 2.0),
+                      child: _buildFeaturedProjectTile(projects[3]),
+                    )),
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.fromLTRB(2.0, 2.0, 4.0, 2.0),
+                      child: _buildFeaturedProjectTile(projects[4]),
+                    )),
+                  ],
+                ),
+              ],
+            );
           } else {
             return Center(
               child: CircularProgressIndicator(),
