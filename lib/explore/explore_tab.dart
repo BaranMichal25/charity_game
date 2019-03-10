@@ -29,12 +29,12 @@ class _ExploreState extends State<ExploreTab> {
           if (snapshot.hasData) {
             final projects = snapshot.data;
 
-            List<StaggeredTile> _staggeredTiles = <StaggeredTile>[
-              const StaggeredTile.count(2, 1),
-              const StaggeredTile.count(1, 1),
-              const StaggeredTile.count(1, 1),
-              const StaggeredTile.count(1, 1),
-              const StaggeredTile.count(1, 1),
+            List<StaggeredTile> _staggeredTiles = [
+              const StaggeredTile.fit(2),
+              const StaggeredTile.fit(1),
+              const StaggeredTile.fit(1),
+              const StaggeredTile.fit(1),
+              const StaggeredTile.fit(1),
             ];
 
             return StaggeredGridView.count(
@@ -59,12 +59,13 @@ class _ExploreState extends State<ExploreTab> {
 
   Widget _buildFeaturedProjectTile(FeaturedProject project) {
     return Container(
-      constraints: BoxConstraints.expand(
-        height: 200.0,
+      constraints: BoxConstraints.tightFor(
+        height: 150.0,
       ),
       alignment: Alignment.bottomLeft,
-      padding: EdgeInsets.all(3.0),
+      padding: EdgeInsets.all(4.0),
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
         image: DecorationImage(
           image: NetworkImage(project.imageUrl),
           fit: BoxFit.cover,
