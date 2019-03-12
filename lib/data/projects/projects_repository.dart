@@ -5,8 +5,8 @@ class ProjectsRepository {
     return Future.delayed(Duration(seconds: 1), () {
       return List.unmodifiable([
         FeaturedProject(
-            title: "Give HIV+ mothers in Kenya a future",
-            imageUrl: "https://www.globalgiving.org/pfil/32427/pict_grid7.jpg"),
+            title: "Help Dogs Save Cats",
+            imageUrl: "https://www.globalgiving.org/pfil/2578/pict_large.jpg"),
         FeaturedProject(
             title: "Sustainable Incomes for 3945 Young Organic Farmers",
             imageUrl: "https://www.globalgiving.org/pfil/6265/pict_grid7.jpg"),
