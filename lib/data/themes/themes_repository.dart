@@ -10,6 +10,11 @@ class ThemesRepository {
         Theme(id: "democ", name: "Democracy and Governance"),
         Theme(id: "disaster", name: "Disaster Recovery"),
         Theme(id: "ecdev", name: "Economic Development"),
+        Theme(id: "edu", name: "Education"),
+        Theme(id: "env", name: "Environment"),
+        Theme(id: "finance", name: "Microfinance"),
+        Theme(id: "gender", name: "Women and Girls"),
+        Theme(id: "health", name: "Health"),
       ]);
     });
   }

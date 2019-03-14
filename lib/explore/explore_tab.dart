@@ -120,19 +120,10 @@ class _ExploreState extends State<ExploreTab> {
         ) {
           if (snapshot.hasData) {
             final themes = snapshot.data;
-            return SizedBox(
-              height: 100,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: themes.length,
-                  itemBuilder: (
-                    BuildContext context,
-                    int index,
-                  ) {
-                    return Chip(
-                      label: Text(themes[index].name),
-                    );
-                  }),
+            return Wrap(
+              alignment: WrapAlignment.center,
+              runAlignment: WrapAlignment.center,
+              children: _buildThemesList(themes),
             );
           } else {
             return Center(
@@ -140,5 +131,19 @@ class _ExploreState extends State<ExploreTab> {
             );
           }
         });
+  }
+
+  List<Widget> _buildThemesList(List<GlobalGiving.Theme> themes) {
+    List<Widget> list = List();
+    for (int i = 0; i < themes.length; i++) {
+      list.add(Chip(label: Text(themes[i].name)));
+    }
+    list.insert(
+        (themes.length + 1) ~/ 2,
+        Chip(
+          label: Text('Explore projects'),
+          backgroundColor: Colors.amber,
+        ));
+    return list;
   }
 }
