@@ -2,6 +2,7 @@ import 'package:charity_game/data/projects/featured_project.dart';
 import 'package:charity_game/data/projects/projects_repository.dart';
 import 'package:charity_game/data/themes/themes_repository.dart';
 import 'package:charity_game/data/themes/theme.dart' as GlobalGiving;
+import 'package:charity_game/utils/either.dart';
 import 'package:flutter/material.dart';
 
 class ExploreTab extends StatefulWidget {
@@ -14,7 +15,7 @@ class _ExploreState extends State<ExploreTab> {
   ThemesRepository _themesRepository = ThemesRepository();
 
   Future<List<FeaturedProject>> _featuredProjects;
-  Future<List<GlobalGiving.Theme>> _themes;
+  Future<Either<String, List<GlobalGiving.Theme>>> _themes;
 
   @override
   void initState() {
@@ -116,15 +117,19 @@ class _ExploreState extends State<ExploreTab> {
         future: _themes,
         builder: (
           BuildContext context,
-          AsyncSnapshot<List<GlobalGiving.Theme>> snapshot,
+          AsyncSnapshot<Either<String, List<GlobalGiving.Theme>>> snapshot,
         ) {
           if (snapshot.hasData) {
-            final themes = snapshot.data;
-            return Wrap(
-              alignment: WrapAlignment.center,
-              runAlignment: WrapAlignment.center,
-              children: _buildThemesList(themes),
-            );
+            final either = snapshot.data;
+            if (either.isLeft()) {
+              return Text(either.left);
+            } else {
+              return Wrap(
+                alignment: WrapAlignment.center,
+                runAlignment: WrapAlignment.center,
+                children: _buildThemesList(either.right),
+              );
+            }
           } else {
             return Center(
               child: CircularProgressIndicator(),

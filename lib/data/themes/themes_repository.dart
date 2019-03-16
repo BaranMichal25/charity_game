@@ -1,21 +1,22 @@
+import 'package:charity_game/data/themes/network/themes_rest_client.dart';
 import 'package:charity_game/data/themes/theme.dart';
+import 'package:charity_game/utils/either.dart';
+import 'package:http/http.dart';
 
 class ThemesRepository {
-  Future<List<Theme>> getThemes() async {
-    return Future.delayed(Duration(seconds: 1), () {
-      return List.unmodifiable([
-        Theme(id: "animals", name: "Animals"),
-        Theme(id: "children", name: "Children"),
-        Theme(id: "climate", name: "Climate Change"),
-        Theme(id: "democ", name: "Democracy and Governance"),
-        Theme(id: "disaster", name: "Disaster Recovery"),
-        Theme(id: "ecdev", name: "Economic Development"),
-        Theme(id: "edu", name: "Education"),
-        Theme(id: "env", name: "Environment"),
-        Theme(id: "finance", name: "Microfinance"),
-        Theme(id: "gender", name: "Women and Girls"),
-        Theme(id: "health", name: "Health"),
-      ]);
-    });
+  final ThemesRestClient restClient = ThemesRestClient(Client());
+  List<Theme> themesCache;
+
+  Future<Either<String, List<Theme>>> getThemes() async {
+    if (themesCache == null) {
+      final either = await restClient.getThemes();
+      if (either.isRight()) {
+        themesCache = either.right;
+      } else {
+        return either;
+      }
+    }
+
+    return Either.right(themesCache);
   }
 }
