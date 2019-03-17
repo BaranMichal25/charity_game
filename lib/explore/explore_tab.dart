@@ -14,7 +14,7 @@ class _ExploreState extends State<ExploreTab> {
   ProjectsRepository _projectsRepository = ProjectsRepository();
   ThemesRepository _themesRepository = ThemesRepository();
 
-  Future<List<FeaturedProject>> _featuredProjects;
+  Future<Either<String, List<FeaturedProject>>> _featuredProjects;
   Future<Either<String, List<GlobalGiving.Theme>>> _themes;
 
   @override
@@ -39,46 +39,51 @@ class _ExploreState extends State<ExploreTab> {
         future: _featuredProjects,
         builder: (
           BuildContext context,
-          AsyncSnapshot<List<FeaturedProject>> snapshot,
+          AsyncSnapshot<Either<String, List<FeaturedProject>>> snapshot,
         ) {
           if (snapshot.hasData) {
-            final projects = snapshot.data;
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: _buildFeaturedProjectTile(projects[0]),
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                        child: Padding(
-                      padding: const EdgeInsets.fromLTRB(4.0, 0.0, 2.0, 2.0),
-                      child: _buildFeaturedProjectTile(projects[1]),
-                    )),
-                    Expanded(
-                        child: Padding(
-                      padding: const EdgeInsets.fromLTRB(2.0, 0.0, 4.0, 2.0),
-                      child: _buildFeaturedProjectTile(projects[2]),
-                    )),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                        child: Padding(
-                      padding: const EdgeInsets.fromLTRB(4.0, 2.0, 2.0, 2.0),
-                      child: _buildFeaturedProjectTile(projects[3]),
-                    )),
-                    Expanded(
-                        child: Padding(
-                      padding: const EdgeInsets.fromLTRB(2.0, 2.0, 4.0, 2.0),
-                      child: _buildFeaturedProjectTile(projects[4]),
-                    )),
-                  ],
-                ),
-              ],
-            );
+            final either = snapshot.data;
+            if (either.isLeft()) {
+              return Text(either.left);
+            } else {
+              final projects = either.right;
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: _buildFeaturedProjectTile(projects[0]),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.fromLTRB(4.0, 0.0, 2.0, 2.0),
+                        child: _buildFeaturedProjectTile(projects[1]),
+                      )),
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.fromLTRB(2.0, 0.0, 4.0, 2.0),
+                        child: _buildFeaturedProjectTile(projects[2]),
+                      )),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.fromLTRB(4.0, 2.0, 2.0, 2.0),
+                        child: _buildFeaturedProjectTile(projects[3]),
+                      )),
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.fromLTRB(2.0, 2.0, 4.0, 2.0),
+                        child: _buildFeaturedProjectTile(projects[4]),
+                      )),
+                    ],
+                  ),
+                ],
+              );
+            }
           } else {
             return Center(
               child: CircularProgressIndicator(),
