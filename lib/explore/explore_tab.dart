@@ -2,6 +2,7 @@ import 'package:charity_game/data/projects/featured_project.dart';
 import 'package:charity_game/data/projects/projects_repository.dart';
 import 'package:charity_game/data/themes/themes_repository.dart';
 import 'package:charity_game/data/themes/theme.dart' as GlobalGiving;
+import 'package:charity_game/injection/service_location.dart';
 import 'package:charity_game/utils/either.dart';
 import 'package:flutter/material.dart';
 
@@ -11,8 +12,8 @@ class ExploreTab extends StatefulWidget {
 }
 
 class _ExploreState extends State<ExploreTab> {
-  ProjectsRepository _projectsRepository = ProjectsRepository();
-  ThemesRepository _themesRepository = ThemesRepository();
+  ProjectsRepository _projectsRepository = sl.get<ProjectsRepository>();
+  ThemesRepository _themesRepository = sl.get<ThemesRepository>();
 
   Future<Either<String, List<FeaturedProject>>> _featuredProjects;
   Future<Either<String, List<GlobalGiving.Theme>>> _themes;
