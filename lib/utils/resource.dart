@@ -1,4 +1,4 @@
-enum Status { SUCCESS, ERROR, LOADING }
+enum Status { LOADING, SUCCESS, ERROR }
 
 class Resource<T> {
   final Status status;

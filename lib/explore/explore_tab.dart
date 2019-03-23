@@ -1,9 +1,8 @@
 import 'package:charity_game/data/projects/featured_project.dart';
-import 'package:charity_game/data/projects/projects_repository.dart';
-import 'package:charity_game/data/themes/themes_repository.dart';
 import 'package:charity_game/data/themes/theme.dart' as GlobalGiving;
+import 'package:charity_game/explore/explore_bloc.dart';
 import 'package:charity_game/injection/service_location.dart';
-import 'package:charity_game/utils/either.dart';
+import 'package:charity_game/utils/resource.dart';
 import 'package:flutter/material.dart';
 
 class ExploreTab extends StatefulWidget {
@@ -12,17 +11,14 @@ class ExploreTab extends StatefulWidget {
 }
 
 class _ExploreState extends State<ExploreTab> {
-  ProjectsRepository _projectsRepository = sl.get<ProjectsRepository>();
-  ThemesRepository _themesRepository = sl.get<ThemesRepository>();
-
-  Future<Either<String, List<FeaturedProject>>> _featuredProjects;
-  Future<Either<String, List<GlobalGiving.Theme>>> _themes;
+  ExploreBloc _exploreBloc;
 
   @override
   void initState() {
     super.initState();
-    _featuredProjects = _projectsRepository.getFeaturedProjects();
-    _themes = _themesRepository.getThemes();
+    _exploreBloc = sl.get<ExploreBloc>();
+    _exploreBloc.loadFeaturedProjects();
+    _exploreBloc.loadThemes();
   }
 
   @override
@@ -36,59 +32,65 @@ class _ExploreState extends State<ExploreTab> {
   }
 
   Widget _buildFeaturedProjectsGrid() {
-    return FutureBuilder(
-        future: _featuredProjects,
-        builder: (
-          BuildContext context,
-          AsyncSnapshot<Either<String, List<FeaturedProject>>> snapshot,
-        ) {
+    return StreamBuilder<Resource<List<FeaturedProject>>>(
+        initialData: Resource.loading(),
+        stream: _exploreBloc.featuredProjects,
+        builder: (_, AsyncSnapshot<Resource<List<FeaturedProject>>> snapshot) {
           if (snapshot.hasData) {
-            final either = snapshot.data;
-            if (either.isLeft()) {
-              return Text(either.left);
-            } else {
-              final projects = either.right;
-              return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: _buildFeaturedProjectTile(projects[0]),
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.fromLTRB(4.0, 0.0, 2.0, 2.0),
-                        child: _buildFeaturedProjectTile(projects[1]),
-                      )),
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.fromLTRB(2.0, 0.0, 4.0, 2.0),
-                        child: _buildFeaturedProjectTile(projects[2]),
-                      )),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.fromLTRB(4.0, 2.0, 2.0, 2.0),
-                        child: _buildFeaturedProjectTile(projects[3]),
-                      )),
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.fromLTRB(2.0, 2.0, 4.0, 2.0),
-                        child: _buildFeaturedProjectTile(projects[4]),
-                      )),
-                    ],
-                  ),
-                ],
-              );
+            final resource = snapshot.data;
+            switch (resource.status) {
+              case Status.LOADING:
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+                break;
+              case Status.SUCCESS:
+                final projects = resource.data;
+                return Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: _buildFeaturedProjectTile(projects[0]),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                            child: Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(4.0, 0.0, 2.0, 2.0),
+                          child: _buildFeaturedProjectTile(projects[1]),
+                        )),
+                        Expanded(
+                            child: Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(2.0, 0.0, 4.0, 2.0),
+                          child: _buildFeaturedProjectTile(projects[2]),
+                        )),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                            child: Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(4.0, 2.0, 2.0, 2.0),
+                          child: _buildFeaturedProjectTile(projects[3]),
+                        )),
+                        Expanded(
+                            child: Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(2.0, 2.0, 4.0, 2.0),
+                          child: _buildFeaturedProjectTile(projects[4]),
+                        )),
+                      ],
+                    ),
+                  ],
+                );
+                break;
+              case Status.ERROR:
+                return Text(resource.message);
+                break;
             }
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
           }
         });
   }
@@ -136,27 +138,30 @@ class _ExploreState extends State<ExploreTab> {
   }
 
   Widget _buildThemesGrid() {
-    return FutureBuilder(
-        future: _themes,
-        builder: (
-          BuildContext context,
-          AsyncSnapshot<Either<String, List<GlobalGiving.Theme>>> snapshot,
-        ) {
+    return StreamBuilder<Resource<List<GlobalGiving.Theme>>>(
+        initialData: Resource.loading(),
+        stream: _exploreBloc.themes,
+        builder:
+            (_, AsyncSnapshot<Resource<List<GlobalGiving.Theme>>> snapshot) {
           if (snapshot.hasData) {
-            final either = snapshot.data;
-            if (either.isLeft()) {
-              return Text(either.left);
-            } else {
-              return Wrap(
-                alignment: WrapAlignment.center,
-                runAlignment: WrapAlignment.center,
-                children: _buildThemesList(either.right),
-              );
+            final resource = snapshot.data;
+            switch (resource.status) {
+              case Status.LOADING:
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+                break;
+              case Status.SUCCESS:
+                return Wrap(
+                  alignment: WrapAlignment.center,
+                  runAlignment: WrapAlignment.center,
+                  children: _buildThemesList(resource.data),
+                );
+                break;
+              case Status.ERROR:
+                return Text(resource.message);
+                break;
             }
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
           }
         });
   }
