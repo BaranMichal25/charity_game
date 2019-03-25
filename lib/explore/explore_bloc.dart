@@ -19,6 +19,7 @@ class ExploreBloc extends Bloc {
       _featuredProjects.stream;
 
   Stream<Resource<List<Theme>>> get themes => _themes.stream;
+  List<FeaturedProject> get cache => projectsRepository.featuredProjectsCache;
 
   ExploreBloc({this.projectsRepository, this.themesRepository})
       : assert(projectsRepository != null, themesRepository != null);
@@ -30,7 +31,6 @@ class ExploreBloc extends Bloc {
   }
 
   Future<void> loadFeaturedProjects() async {
-    _featuredProjects.add(Resource.loading());
     final either = await projectsRepository.getFeaturedProjects();
     if (either.isLeft()) {
       _featuredProjects.add(Resource.error(message: either.left));

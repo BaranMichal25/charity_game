@@ -13,6 +13,7 @@ class ProjectsRepository {
   Future<Either<String, List<FeaturedProject>>> getFeaturedProjects() async {
     if (featuredProjectsCache == null) {
       final either = await restClient.getFeaturedProjects();
+      return either;
       if (either.isRight()) {
         featuredProjectsCache = either.right;
       } else {

@@ -34,8 +34,15 @@ class _ExploreState extends State<ExploreTab> {
   }
 
   Widget _buildFeaturedProjectsGrid() {
+    final cache = _exploreBloc.cache;
+    Resource<List<FeaturedProject>> resource;
+    if(cache == null){
+      resource = Resource.loading();
+    }else{
+      resource = Resource.success(data: cache);
+    }
     return StreamBuilder<Resource<List<FeaturedProject>>>(
-        initialData: Resource.loading(),
+        initialData: resource,
         stream: _exploreBloc.featuredProjects,
         builder: (_, AsyncSnapshot<Resource<List<FeaturedProject>>> snapshot) {
           return FeaturedProjectsGrid(resource: snapshot.data);
