@@ -34,18 +34,24 @@ class _ExploreState extends State<ExploreTab> {
   }
 
   Widget _buildFeaturedProjectsGrid() {
+    final featuredProjects = _exploreBloc.getFeaturedProjects();
     return StreamBuilder<Resource<List<FeaturedProject>>>(
-        initialData: Resource.loading(),
-        stream: _exploreBloc.featuredProjects,
+        initialData: featuredProjects != null
+            ? Resource.success(data: featuredProjects)
+            : Resource.loading(),
+        stream: _exploreBloc.featuredProjectsStream,
         builder: (_, AsyncSnapshot<Resource<List<FeaturedProject>>> snapshot) {
           return FeaturedProjectsGrid(resource: snapshot.data);
         });
   }
 
   Widget _buildThemesGrid() {
+    final themes = _exploreBloc.getThemes();
     return StreamBuilder<Resource<List<GlobalGiving.Theme>>>(
-        initialData: Resource.loading(),
-        stream: _exploreBloc.themes,
+        initialData: themes != null
+            ? Resource.success(data: themes)
+            : Resource.loading(),
+        stream: _exploreBloc.themesStream,
         builder:
             (_, AsyncSnapshot<Resource<List<GlobalGiving.Theme>>> snapshot) {
           return ThemesGrid(resource: snapshot.data);

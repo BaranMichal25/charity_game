@@ -15,10 +15,10 @@ class ExploreBloc extends Bloc {
   final _featuredProjects = PublishSubject<Resource<List<FeaturedProject>>>();
   final _themes = PublishSubject<Resource<List<Theme>>>();
 
-  Stream<Resource<List<FeaturedProject>>> get featuredProjects =>
+  Stream<Resource<List<FeaturedProject>>> get featuredProjectsStream =>
       _featuredProjects.stream;
 
-  Stream<Resource<List<Theme>>> get themes => _themes.stream;
+  Stream<Resource<List<Theme>>> get themesStream => _themes.stream;
 
   ExploreBloc({this.projectsRepository, this.themesRepository})
       : assert(projectsRepository != null, themesRepository != null);
@@ -30,7 +30,6 @@ class ExploreBloc extends Bloc {
   }
 
   Future<void> loadFeaturedProjects() async {
-    _featuredProjects.add(Resource.loading());
     final either = await projectsRepository.getFeaturedProjects();
     if (either.isLeft()) {
       _featuredProjects.add(Resource.error(message: either.left));
@@ -40,12 +39,19 @@ class ExploreBloc extends Bloc {
   }
 
   Future<void> loadThemes() async {
-    _themes.add(Resource.loading());
     final either = await themesRepository.getThemes();
     if (either.isLeft()) {
       _themes.add(Resource.error(message: either.left));
     } else {
       _themes.add(Resource.success(data: either.right));
     }
+  }
+
+  List<FeaturedProject> getFeaturedProjects() {
+    return projectsRepository.featuredProjectsCache;
+  }
+
+  List<Theme> getThemes() {
+    return themesRepository.themesCache;
   }
 }
