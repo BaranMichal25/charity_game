@@ -70,7 +70,7 @@ class FeaturedProjectsGrid extends StatelessWidget {
               borderRadius: BorderRadius.circular(5.0),
               child: FadeInImage(
                 fit: BoxFit.cover,
-                placeholder: AssetImage('assets/images/placeholder.png'),
+                placeholder: AssetImage('assets/images/placeholder.jpg'),
                 image: NetworkImage(project.imageUrl),
               ),
             ),
