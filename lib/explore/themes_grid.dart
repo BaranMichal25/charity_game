@@ -14,17 +14,14 @@ class ThemesGrid extends StatelessWidget {
         return Center(
           child: CircularProgressIndicator(),
         );
-        break;
       case Status.SUCCESS:
         return Wrap(
           alignment: WrapAlignment.center,
           runAlignment: WrapAlignment.center,
           children: _buildThemesList(resource.data),
         );
-        break;
       case Status.ERROR:
         return Text(resource.message);
-        break;
     }
   }
 

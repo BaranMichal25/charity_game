@@ -9,4 +9,5 @@ class Strings {
   static const notifications = 'Notifications';
   static const invite_a_friend = 'Invite a friend';
   static const help = 'Help';
+  static const loading_projects = 'Loading projects...';
 }

@@ -21,7 +21,8 @@ abstract class RestClient {
       // || response.statusCode == HttpStatus.noContent
       return Either.right(mapper(response.body));
     } else {
-      return Either.left(response.toString());
+      return Either.left(
+          "Code: ${response.statusCode}, Body: ${response.body}");
     }
   }
 }
