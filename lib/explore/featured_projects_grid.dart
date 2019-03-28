@@ -1,4 +1,5 @@
 import 'package:charity_game/data/projects/featured_project.dart';
+import 'package:charity_game/project/project_screen.dart';
 import 'package:charity_game/utils/resource.dart';
 import 'package:charity_game/utils/strings.dart';
 import 'package:shimmer/shimmer.dart';
@@ -17,7 +18,8 @@ class FeaturedProjectsGrid extends StatelessWidget {
         return _buildGrid(tiles);
       case Status.SUCCESS:
         final projects = resource.data;
-        final tiles = List.generate(5, (i) => _buildDataTile(projects[i]));
+        final tiles =
+            List.generate(5, (i) => _buildDataTile(projects[i], context));
         return _buildGrid(tiles);
       case Status.ERROR:
         return Text(resource.message);
@@ -100,18 +102,26 @@ class FeaturedProjectsGrid extends StatelessWidget {
     );
   }
 
-  Widget _buildDataTile(FeaturedProject project) {
+  Widget _buildDataTile(FeaturedProject project, BuildContext context) {
     return SizedBox(
       height: 150.0,
       child: Stack(
         children: [
           Positioned.fill(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(5.0),
-              child: FadeInImage(
-                fit: BoxFit.cover,
-                placeholder: AssetImage('assets/images/placeholder.jpg'),
-                image: NetworkImage(project.imageUrl),
+            child: Hero(
+              tag: project.imageUrl,
+              child: Material(
+                child: InkWell(
+                  onTap: () => _openProjectScreen(project, context),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5.0),
+                    child: FadeInImage(
+                      fit: BoxFit.cover,
+                      placeholder: AssetImage('assets/images/placeholder.jpg'),
+                      image: NetworkImage(project.imageUrl),
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
@@ -139,6 +149,13 @@ class FeaturedProjectsGrid extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  _openProjectScreen(FeaturedProject project, BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ProjectScreen(project: project)),
     );
   }
 }
