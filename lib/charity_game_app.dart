@@ -10,7 +10,7 @@ class CharityGameApp extends StatelessWidget {
       title: Strings.charity_game,
       debugShowCheckedModeBanner: false,
       theme: Styles.theme,
-      home: MainPage(title: 'Charity Game'),
+      home: MainPage(title: Strings.charity_game),
     );
   }
 }
