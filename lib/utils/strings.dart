@@ -1,4 +1,5 @@
 class Strings {
+  static const charity_game = 'Charity Game';
   static const home = 'Home';
   static const explore = 'Explore';
   static const history = 'History';
