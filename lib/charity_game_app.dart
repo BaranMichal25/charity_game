@@ -1,5 +1,6 @@
 import 'package:charity_game/main/main_page.dart';
 import 'package:charity_game/utils/strings.dart';
+import 'package:charity_game/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class CharityGameApp extends StatelessWidget {
@@ -8,9 +9,7 @@ class CharityGameApp extends StatelessWidget {
     return MaterialApp(
       title: Strings.charity_game,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: Styles.theme,
       home: MainPage(title: 'Charity Game'),
     );
   }
