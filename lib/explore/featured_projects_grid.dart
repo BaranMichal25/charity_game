@@ -108,18 +108,15 @@ class FeaturedProjectsGrid extends StatelessWidget {
       child: Stack(
         children: [
           Positioned.fill(
-            child: Hero(
-              tag: project.imageUrl,
-              child: Material(
-                child: InkWell(
-                  onTap: () => _openProjectScreen(project, context),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(5.0),
-                    child: FadeInImage(
-                      fit: BoxFit.cover,
-                      placeholder: AssetImage('assets/images/placeholder.jpg'),
-                      image: NetworkImage(project.imageUrl),
-                    ),
+            child: Material(
+              child: InkWell(
+                onTap: () => _openProjectScreen(project, context),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5.0),
+                  child: FadeInImage(
+                    fit: BoxFit.cover,
+                    placeholder: AssetImage('assets/images/placeholder.jpg'),
+                    image: NetworkImage(project.imageUrl),
                   ),
                 ),
               ),
