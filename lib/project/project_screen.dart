@@ -1,17 +1,34 @@
 import 'package:charity_game/data/projects/featured_project.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:charity_game/injection/service_location.dart';
+import 'package:charity_game/project/project_bloc.dart';
+import 'package:charity_game/utils/resource.dart';
 import 'package:flutter/material.dart';
 
-class ProjectScreen extends StatelessWidget {
+class ProjectScreen extends StatefulWidget {
   final FeaturedProject project;
 
   ProjectScreen({this.project});
 
   @override
+  _ProjectScreenState createState() => _ProjectScreenState();
+}
+
+class _ProjectScreenState extends State<ProjectScreen> {
+  ProjectBloc _projectBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _projectBloc = sl.get<ProjectBloc>();
+    _projectBloc.loadImageGallery(widget.project.id);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(project.title),
+        title: Text(widget.project.title),
       ),
       body: _buildBody(),
     );
@@ -24,13 +41,29 @@ class ProjectScreen extends StatelessWidget {
   }
 
   Widget _buildImageGallery() {
-    final List<String> links = [
-      project.imageUrl,
-      'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-      'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-      'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80'
-    ];
+    return StreamBuilder<Resource<List<String>>>(
+        initialData: Resource.loading(),
+        stream: _projectBloc.imageGalleryStream,
+        builder: (_, AsyncSnapshot<Resource<List<String>>> snapshot) {
+          final resource = snapshot.data;
 
+          switch (resource.status) {
+            case Status.LOADING:
+              return Container(
+                height: 300, // TODO
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            case Status.SUCCESS:
+              return _buildImageCarousel(resource.data);
+            case Status.ERROR:
+              return Text(resource.message);
+          }
+        });
+  }
+
+  Widget _buildImageCarousel(List<String> links) {
     final List<Widget> images = List.generate(
       links.length,
       (int index) {
@@ -41,7 +74,7 @@ class ProjectScreen extends StatelessWidget {
             child: Image.network(
               links[index],
               fit: BoxFit.cover,
-              width: 1000.0,
+              width: 1000.0, // TODO
             ),
           ),
         );

@@ -3,6 +3,7 @@ import 'package:charity_game/data/projects/projects_repository.dart';
 import 'package:charity_game/data/themes/network/themes_rest_client.dart';
 import 'package:charity_game/data/themes/themes_repository.dart';
 import 'package:charity_game/explore/explore_bloc.dart';
+import 'package:charity_game/project/project_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
@@ -32,6 +33,12 @@ void _registerBlocs() {
     return ExploreBloc(
       projectsRepository: sl.get<ProjectsRepository>(),
       themesRepository: sl.get<ThemesRepository>(),
+    );
+  });
+
+  sl.registerFactory<ProjectBloc>(() {
+    return ProjectBloc(
+      projectsRepository: sl.get<ProjectsRepository>(),
     );
   });
 }

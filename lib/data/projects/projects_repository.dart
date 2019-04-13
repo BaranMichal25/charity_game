@@ -22,4 +22,8 @@ class ProjectsRepository {
 
     return Either.right(featuredProjectsCache);
   }
+
+  Future<Either<String, List<String>>> getImageGallery(int projectId) async {
+    return restClient.getImageGallery(projectId);
+  }
 }
