@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:charity_game/utils/styles.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -30,7 +31,10 @@ class _ProjectScreenState extends State<ProjectScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.project.title),
+        title: AutoSizeText(
+          widget.project.title,
+          maxLines: 2,
+        ),
       ),
       body: _buildBody(),
     );
