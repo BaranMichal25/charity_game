@@ -1,5 +1,7 @@
-import 'package:charity_game/data/projects/featured_project.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:charity_game/utils/styles.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:charity_game/data/projects/featured_project.dart';
 import 'package:charity_game/injection/service_location.dart';
 import 'package:charity_game/project/project_bloc.dart';
 import 'package:charity_game/utils/resource.dart';
@@ -52,7 +54,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
               return SizedBox(
                 height: MediaQuery.of(context).size.width / 2.0,
                 child: Center(
-                  child: CircularProgressIndicator(),
+                  child: SpinKitThreeBounce(color: Styles.accentColor),
                 ),
               );
             case Status.SUCCESS:
@@ -73,7 +75,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
         return Padding(
           padding: EdgeInsets.all(5.0),
           child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.circular(5.0),
             child: Image.network(
               links[index],
               fit: BoxFit.cover,
