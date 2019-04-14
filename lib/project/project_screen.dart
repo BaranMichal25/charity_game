@@ -49,8 +49,8 @@ class _ProjectScreenState extends State<ProjectScreen> {
 
           switch (resource.status) {
             case Status.LOADING:
-              return Container(
-                height: 300, // TODO
+              return SizedBox(
+                height: MediaQuery.of(context).size.width / 2.0,
                 child: Center(
                   child: CircularProgressIndicator(),
                 ),
@@ -58,7 +58,10 @@ class _ProjectScreenState extends State<ProjectScreen> {
             case Status.SUCCESS:
               return _buildImageCarousel(resource.data);
             case Status.ERROR:
-              return Text(resource.message);
+              return SizedBox(
+                height: MediaQuery.of(context).size.width / 2.0,
+                child: Text(resource.message),
+              );
           }
         });
   }
@@ -74,7 +77,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
             child: Image.network(
               links[index],
               fit: BoxFit.cover,
-              width: 1000.0, // TODO
+              width: 1000.0,
             ),
           ),
         );
