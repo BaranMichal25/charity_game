@@ -15,13 +15,6 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
-  final List<Widget> _children = [
-    HomeTab(),
-    ExploreTab(),
-    PlaceholderWidget(Strings.history),
-    PlaceholderWidget(Strings.stats),
-    MoreTab(),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +22,12 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      bottomNavigationBar: _bottomNavigationBar(),
-      body: _children[_currentIndex],
+      bottomNavigationBar: _buildBottomNavigationBar(),
+      body: _buildBody(),
     );
   }
 
-  Widget _bottomNavigationBar() {
+  Widget _buildBottomNavigationBar() {
     return BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: _onTabTapped,
@@ -67,6 +60,23 @@ class _MainPageState extends State<MainPage> {
     setState(() {
       _currentIndex = index;
     });
+  }
+
+  Widget _buildBody() {
+    switch (_currentIndex) {
+      case 0:
+        return HomeTab();
+      case 1:
+        return ExploreTab();
+      case 2:
+        return PlaceholderWidget(Strings.history);
+      case 3:
+        return PlaceholderWidget(Strings.stats);
+      case 4:
+        return MoreTab();
+      default:
+        throw 'Unexpected index $_currentIndex';
+    }
   }
 }
 
