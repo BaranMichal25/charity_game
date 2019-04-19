@@ -11,4 +11,5 @@ class Strings {
   static const invite_a_friend = 'Invite a friend';
   static const help = 'Help';
   static const loading_projects = 'Loading projects...';
+  static const by = 'by';
 }

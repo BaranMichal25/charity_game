@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:charity_game/data/projects/project.dart';
+import 'package:charity_game/utils/dimens.dart';
+import 'package:charity_game/utils/strings.dart';
 import 'package:charity_game/utils/styles.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:charity_game/data/projects/featured_project.dart';
@@ -120,10 +122,74 @@ class _ProjectScreenState extends State<ProjectScreen> {
                 ),
               );
             case Status.SUCCESS:
-              return Text(resource.data.country);
+              final project = resource.data;
+              return Card(
+                margin: const EdgeInsets.all(Dimens.defaultSpacing),
+                child: Padding(
+                  padding: const EdgeInsets.all(Dimens.defaultSpacing),
+                  child: Column(
+                    children: [
+                      _buildOrganizationRow(project),
+                      _buildThemeAndCountryRow(project),
+                    ],
+                  ),
+                ),
+              );
+            //return Text(resource.data.country);
             case Status.ERROR:
               return Text(resource.message);
           }
         });
+  }
+
+  Widget _buildOrganizationRow(Project project) {
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+        text: '${Strings.by} ',
+        style: TextStyle(
+          fontSize: 14.0,
+          color: Colors.black,
+        ),
+        children: [
+          TextSpan(
+            text: project.organization.name,
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
+              color: Styles.linkColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildThemeAndCountryRow(Project project) {
+    return Padding(
+      padding: const EdgeInsets.only(top: Dimens.defaultSpacing),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _buildIconText(Icons.explore, project.themeName),
+          _buildIconText(Icons.pin_drop, project.country),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildIconText(IconData icon, String title) {
+    return Row(
+      children: [
+        Icon(icon),
+        Padding(
+          padding: const EdgeInsets.only(left: Dimens.halfDefaultSpacing),
+          child: Text(
+            title,
+            style: TextStyle(fontStyle: FontStyle.italic),
+          ),
+        ),
+      ],
+    );
   }
 }
