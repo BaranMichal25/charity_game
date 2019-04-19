@@ -1,11 +1,11 @@
-import 'package:charity_game/data/themes/network/themes_dto.dart';
+import 'package:charity_game/data/projects/network/donation_options_dto.dart';
 
-class FeaturedProjectsSummaryGGDto {
+class FeaturedProjectsSummaryDto {
   ProjectsDto projects;
 
-  FeaturedProjectsSummaryGGDto({this.projects});
+  FeaturedProjectsSummaryDto({this.projects});
 
-  FeaturedProjectsSummaryGGDto.fromJson(Map<String, dynamic> json) {
+  FeaturedProjectsSummaryDto.fromJson(Map<String, dynamic> json) {
     projects = json['projects'] != null
         ? ProjectsDto.fromJson(json['projects'])
         : null;
@@ -22,7 +22,7 @@ class FeaturedProjectsSummaryGGDto {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is FeaturedProjectsSummaryGGDto &&
+      other is FeaturedProjectsSummaryDto &&
           runtimeType == other.runtimeType &&
           projects == other.projects;
 
@@ -31,16 +31,16 @@ class FeaturedProjectsSummaryGGDto {
 }
 
 class ProjectsDto {
-  List<ProjectDto> project;
+  List<FeaturedProjectsProjectDto> project;
   int numberFound;
 
   ProjectsDto({this.project, this.numberFound});
 
   ProjectsDto.fromJson(Map<String, dynamic> json) {
     if (json['project'] != null) {
-      project = List<ProjectDto>();
+      project = List<FeaturedProjectsProjectDto>();
       json['project'].forEach((v) {
-        project.add(ProjectDto.fromJson(v));
+        project.add(FeaturedProjectsProjectDto.fromJson(v));
       });
     }
     numberFound = json['numberFound'];
@@ -67,9 +67,9 @@ class ProjectsDto {
   int get hashCode => project.hashCode ^ numberFound.hashCode;
 }
 
-class ProjectDto {
+class FeaturedProjectsProjectDto {
   int id;
-  OrganizationDto organization;
+  FeaturedProjectsOrganizationDto organization;
   bool active;
   String title;
   String summary;
@@ -81,7 +81,7 @@ class ProjectDto {
   DonationOptionsDto donationOptions;
   String type;
 
-  ProjectDto(
+  FeaturedProjectsProjectDto(
       {this.id,
       this.organization,
       this.active,
@@ -95,10 +95,10 @@ class ProjectDto {
       this.donationOptions,
       this.type});
 
-  ProjectDto.fromJson(Map<String, dynamic> json) {
+  FeaturedProjectsProjectDto.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     organization = json['organization'] != null
-        ? OrganizationDto.fromJson(json['organization'])
+        ? FeaturedProjectsOrganizationDto.fromJson(json['organization'])
         : null;
     active = json['active'];
     title = json['title'];
@@ -138,7 +138,7 @@ class ProjectDto {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ProjectDto &&
+      other is FeaturedProjectsProjectDto &&
           runtimeType == other.runtimeType &&
           id == other.id &&
           organization == other.organization &&
@@ -169,7 +169,7 @@ class ProjectDto {
       type.hashCode;
 }
 
-class OrganizationDto {
+class FeaturedProjectsOrganizationDto {
   int id;
   int bridgeId;
   String name;
@@ -184,11 +184,9 @@ class OrganizationDto {
   String mission;
   int totalProjects;
   int activeProjects;
-  ThemesDto themes;
-  CountriesDto countries;
   String country;
 
-  OrganizationDto(
+  FeaturedProjectsOrganizationDto(
       {this.id,
       this.bridgeId,
       this.name,
@@ -203,11 +201,9 @@ class OrganizationDto {
       this.mission,
       this.totalProjects,
       this.activeProjects,
-      this.themes,
-      this.countries,
       this.country});
 
-  OrganizationDto.fromJson(Map<String, dynamic> json) {
+  FeaturedProjectsOrganizationDto.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     bridgeId = json['bridgeId'];
     name = json['name'];
@@ -222,10 +218,6 @@ class OrganizationDto {
     mission = json['mission'];
     totalProjects = json['totalProjects'];
     activeProjects = json['activeProjects'];
-    themes = json['themes'] != null ? ThemesDto.fromJson(json['themes']) : null;
-    countries = json['countries'] != null
-        ? CountriesDto.fromJson(json['countries'])
-        : null;
     country = json['country'];
   }
 
@@ -245,12 +237,6 @@ class OrganizationDto {
     data['mission'] = this.mission;
     data['totalProjects'] = this.totalProjects;
     data['activeProjects'] = this.activeProjects;
-    if (this.themes != null) {
-      data['themes'] = this.themes.toJson();
-    }
-    if (this.countries != null) {
-      data['countries'] = this.countries.toJson();
-    }
     data['country'] = this.country;
     return data;
   }
@@ -258,7 +244,7 @@ class OrganizationDto {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is OrganizationDto &&
+      other is FeaturedProjectsOrganizationDto &&
           runtimeType == other.runtimeType &&
           id == other.id &&
           bridgeId == other.bridgeId &&
@@ -274,8 +260,6 @@ class OrganizationDto {
           mission == other.mission &&
           totalProjects == other.totalProjects &&
           activeProjects == other.activeProjects &&
-          themes == other.themes &&
-          countries == other.countries &&
           country == other.country;
 
   @override
@@ -294,134 +278,5 @@ class OrganizationDto {
       mission.hashCode ^
       totalProjects.hashCode ^
       activeProjects.hashCode ^
-      themes.hashCode ^
-      countries.hashCode ^
       country.hashCode;
-}
-
-class CountriesDto {
-  List<CountryDto> country;
-
-  CountriesDto({this.country});
-
-  CountriesDto.fromJson(Map<String, dynamic> json) {
-    if (json['country'] != null) {
-      country = List<CountryDto>();
-      json['country'].forEach((v) {
-        country.add(CountryDto.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    if (this.country != null) {
-      data['country'] = this.country.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is CountriesDto &&
-          runtimeType == other.runtimeType &&
-          country == other.country;
-
-  @override
-  int get hashCode => country.hashCode;
-}
-
-class CountryDto {
-  String name;
-  String iso3166CountryCode;
-
-  CountryDto({this.name, this.iso3166CountryCode});
-
-  CountryDto.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    iso3166CountryCode = json['iso3166CountryCode'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['name'] = this.name;
-    data['iso3166CountryCode'] = this.iso3166CountryCode;
-    return data;
-  }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is CountryDto &&
-          runtimeType == other.runtimeType &&
-          name == other.name &&
-          iso3166CountryCode == other.iso3166CountryCode;
-
-  @override
-  int get hashCode => name.hashCode ^ iso3166CountryCode.hashCode;
-}
-
-class DonationOptionsDto {
-  List<DonationOptionDto> donationOption;
-
-  DonationOptionsDto({this.donationOption});
-
-  DonationOptionsDto.fromJson(Map<String, dynamic> json) {
-    if (json['donationOption'] != null) {
-      donationOption = List<DonationOptionDto>();
-      json['donationOption'].forEach((v) {
-        donationOption.add(DonationOptionDto.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    if (this.donationOption != null) {
-      data['donationOption'] =
-          this.donationOption.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is DonationOptionsDto &&
-          runtimeType == other.runtimeType &&
-          donationOption == other.donationOption;
-
-  @override
-  int get hashCode => donationOption.hashCode;
-}
-
-class DonationOptionDto {
-  int amount;
-  String description;
-
-  DonationOptionDto({this.amount, this.description});
-
-  DonationOptionDto.fromJson(Map<String, dynamic> json) {
-    amount = json['amount'];
-    description = json['description'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['amount'] = this.amount;
-    data['description'] = this.description;
-    return data;
-  }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is DonationOptionDto &&
-          runtimeType == other.runtimeType &&
-          amount == other.amount &&
-          description == other.description;
-
-  @override
-  int get hashCode => amount.hashCode ^ description.hashCode;
 }

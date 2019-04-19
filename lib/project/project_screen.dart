@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:charity_game/data/projects/project.dart';
 import 'package:charity_game/utils/styles.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:charity_game/data/projects/featured_project.dart';
@@ -25,6 +26,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
     super.initState();
     _projectBloc = sl.get<ProjectBloc>();
     _projectBloc.loadImageGallery(widget.project.id);
+    _projectBloc.loadProject(widget.project.id);
   }
 
   @override
@@ -42,7 +44,10 @@ class _ProjectScreenState extends State<ProjectScreen> {
 
   Widget _buildBody() {
     return Column(
-      children: [_buildImageGallery()],
+      children: [
+        _buildImageGallery(),
+        _buildProjectDetails(),
+      ],
     );
   }
 
@@ -97,5 +102,28 @@ class _ProjectScreenState extends State<ProjectScreen> {
       viewportFraction: 0.9,
       aspectRatio: 2.0,
     );
+  }
+
+  Widget _buildProjectDetails() {
+    return StreamBuilder<Resource<Project>>(
+        initialData: Resource.loading(),
+        stream: _projectBloc.projectStream,
+        builder: (_, AsyncSnapshot<Resource<Project>> snapshot) {
+          final resource = snapshot.data;
+
+          switch (resource.status) {
+            case Status.LOADING:
+              return SizedBox(
+                height: MediaQuery.of(context).size.width / 2.0,
+                child: Center(
+                  child: SpinKitThreeBounce(color: Styles.accentColor),
+                ),
+              );
+            case Status.SUCCESS:
+              return Text(resource.data.country);
+            case Status.ERROR:
+              return Text(resource.message);
+          }
+        });
   }
 }

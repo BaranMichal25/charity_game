@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:charity_game/data/projects/featured_project.dart';
 import 'package:charity_game/data/projects/network/projects_rest_client.dart';
+import 'package:charity_game/data/projects/project.dart';
 import 'package:charity_game/utils/either.dart';
 
 class ProjectsRepository {
@@ -25,5 +26,9 @@ class ProjectsRepository {
 
   Future<Either<String, List<String>>> getImageGallery(int projectId) async {
     return restClient.getImageGallery(projectId);
+  }
+
+  Future<Either<String, Project>> getProject(int projectId) async {
+    return restClient.getProject(projectId);
   }
 }
