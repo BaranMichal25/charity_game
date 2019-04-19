@@ -103,14 +103,14 @@ class FeaturedProjectsGrid extends StatelessWidget {
   }
 
   Widget _buildDataTile(FeaturedProject project, BuildContext context) {
-    return SizedBox(
-      height: 150.0,
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: Material(
-              child: InkWell(
-                onTap: () => _openProjectScreen(project, context),
+    return Material(
+      child: InkWell(
+        onTap: () => _openProjectScreen(project, context),
+        child: SizedBox(
+          height: 150.0,
+          child: Stack(
+            children: [
+              Positioned.fill(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(5.0),
                   child: FadeInImage(
@@ -120,31 +120,31 @@ class FeaturedProjectsGrid extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          ),
-          Positioned(
-            left: 0.0,
-            bottom: 0.0,
-            right: 0.0,
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Text(
-                project.title,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0,
-                  shadows: [
-                    Shadow(
-                      blurRadius: 8.0,
-                      color: Color.fromARGB(255, 0, 0, 0),
+              Positioned(
+                left: 0.0,
+                bottom: 0.0,
+                right: 0.0,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Text(
+                    project.title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 8.0,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
