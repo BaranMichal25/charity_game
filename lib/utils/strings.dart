@@ -1,4 +1,7 @@
 class Strings {
+
+  Strings._();
+
   static const charity_game = 'Charity Game';
   static const home = 'Home';
   static const explore = 'Explore';

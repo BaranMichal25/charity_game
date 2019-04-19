@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:charity_game/data/projects/project.dart';
 import 'package:charity_game/utils/dimens.dart';
+import 'package:charity_game/utils/moonicons.dart';
 import 'package:charity_game/utils/strings.dart';
 import 'package:charity_game/utils/styles.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -171,8 +172,8 @@ class _ProjectScreenState extends State<ProjectScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildIconText(Icons.explore, project.themeName),
-          _buildIconText(Icons.pin_drop, project.country),
+          _buildIconText(MoonIcons.themes, project.themeName),
+          _buildIconText(Icons.public, project.country),
         ],
       ),
     );
@@ -184,10 +185,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
         Icon(icon),
         Padding(
           padding: const EdgeInsets.only(left: Dimens.halfDefaultSpacing),
-          child: Text(
-            title,
-            style: TextStyle(fontStyle: FontStyle.italic),
-          ),
+          child: Text(title),
         ),
       ],
     );
