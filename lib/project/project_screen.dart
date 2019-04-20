@@ -84,20 +84,14 @@ class _ProjectScreenState extends State<ProjectScreen> {
     final List<Widget> images = List.generate(
       links.length,
       (int index) {
-        return Padding(
-          padding: EdgeInsets.all(5.0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(5.0),
-            child: Image.network(
-              links[index],
-              fit: BoxFit.cover,
-              width: 1000.0,
-            ),
-          ),
+        return Image.network(
+          links[index],
+          fit: BoxFit.cover,
+          width: 1000.0,
         );
       },
     );
-
+return xd(images);
     return CarouselSlider(
       items: images,
       autoPlay: false,
@@ -188,6 +182,65 @@ class _ProjectScreenState extends State<ProjectScreen> {
           child: Text(title),
         ),
       ],
+    );
+  }
+
+  Widget xd(List<Widget> images) {
+    return CarouselWithIndicator(images: images);
+  }
+}
+
+class CarouselWithIndicator extends StatefulWidget {
+  final List<Widget> images;
+
+  CarouselWithIndicator({this.images});
+
+  @override
+  _CarouselWithIndicatorState createState() => _CarouselWithIndicatorState();
+}
+
+class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
+  int _current = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        CarouselSlider(
+          items: widget.images,
+          aspectRatio: 2.0,
+
+          viewportFraction: 1.0,
+          onPageChanged: (index) {
+            setState(() {
+              _current = index;
+            });
+          },
+        ),
+        Positioned(
+          bottom: 0.0,
+          left: 0.0,
+          right: 0.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children:
+                List.generate(widget.images.length, (index) => lol(index)),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget lol(int index) {
+    return Container(
+      width: 8.0,
+      height: 8.0,
+      margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: _current == index
+              ? Color.fromRGBO(0, 0, 0, 0.9)
+              : Color.fromRGBO(0, 0, 0, 0.4)),
     );
   }
 }
