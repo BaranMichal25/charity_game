@@ -124,7 +124,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
               );
             case Status.SUCCESS:
               final project = resource.data;
-              return Card(
+              return Container(
                 margin: const EdgeInsets.all(Dimens.defaultSpacing),
                 child: Padding(
                   padding: const EdgeInsets.all(Dimens.defaultSpacing),
@@ -156,7 +156,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
           TextSpan(
             text: project.organization.name,
             style: TextStyle(
-              fontSize: 16.0,
+              fontSize: 18.0,
               fontWeight: FontWeight.bold,
               color: Styles.linkColor,
             ),
