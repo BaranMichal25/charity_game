@@ -103,48 +103,51 @@ class FeaturedProjectsGrid extends StatelessWidget {
   }
 
   Widget _buildDataTile(FeaturedProject project, BuildContext context) {
-    return Material(
-      child: InkWell(
-        onTap: () => _openProjectScreen(project, context),
-        child: SizedBox(
-          height: 150.0,
-          child: Stack(
-            children: [
-              Positioned.fill(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(5.0),
-                  child: FadeInImage(
-                    fit: BoxFit.cover,
-                    placeholder: AssetImage('assets/images/placeholder.jpg'),
-                    image: NetworkImage(project.imageUrl),
-                  ),
-                ),
+    return SizedBox(
+      height: 150.0,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5.0),
+              child: FadeInImage(
+                fit: BoxFit.cover,
+                placeholder: AssetImage('assets/images/placeholder.jpg'),
+                image: NetworkImage(project.imageUrl),
               ),
-              Positioned(
-                left: 0.0,
-                bottom: 0.0,
-                right: 0.0,
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Text(
-                    project.title,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
-                      shadows: [
-                        Shadow(
-                          blurRadius: 8.0,
-                          color: Color.fromARGB(255, 0, 0, 0),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+          Positioned(
+            left: 0.0,
+            bottom: 0.0,
+            right: 0.0,
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Text(
+                project.title,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0,
+                  shadows: [
+                    Shadow(
+                      blurRadius: 8.0,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Positioned.fill(
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () => _openProjectScreen(project, context),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
