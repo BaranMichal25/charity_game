@@ -9,8 +9,8 @@ import 'package:rxdart/rxdart.dart';
 class ProjectBloc extends Bloc {
   final ProjectsRepository projectsRepository;
 
-  final _imageGallery = PublishSubject<Resource<List<String>>>();
-  final _project = PublishSubject<Resource<Project>>();
+  final _imageGallery = BehaviorSubject<Resource<List<String>>>();
+  final _project = BehaviorSubject<Resource<Project>>();
 
   Stream<Resource<List<String>>> get imageGalleryStream => _imageGallery.stream;
 
