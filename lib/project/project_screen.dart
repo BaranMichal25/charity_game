@@ -46,7 +46,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
   }
 
   Widget _buildBody() {
-    return Column(
+    return ListView(
       children: [
         _buildImageGallery(),
         _buildProjectDetails(),
