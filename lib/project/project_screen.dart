@@ -45,12 +45,14 @@ class _ProjectScreenState extends State<ProjectScreen> {
   }
 
   Widget _buildBody() {
-    return ListView(
-      children: [
-        _buildImageGallery(),
-        _buildProjectDetails(),
-        _buildProjectDescription(),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          _buildImageGallery(),
+          _buildProjectDetails(),
+          _buildProjectDescription(),
+        ],
+      ),
     );
   }
 
@@ -197,19 +199,12 @@ class _ProjectScreenState extends State<ProjectScreen> {
           final resource = snapshot.data;
 
           switch (resource.status) {
-            case Status.LOADING:
-              return SizedBox(
-                height: MediaQuery.of(context).size.width / 2.0,
-                child: Center(
-                  child: SpinKitThreeBounce(color: Colors.blue[500]),
-                ),
-              );
             case Status.SUCCESS:
               final project = resource.data;
               return _buildDescriptionColumn(project);
-            //return Text(resource.data.country);
+            case Status.LOADING:
             case Status.ERROR:
-              return Text(resource.message);
+              return SizedBox();
           }
         });
   }
