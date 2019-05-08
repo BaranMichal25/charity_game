@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:expandable/expandable.dart';
 import 'package:charity_game/data/projects/project.dart';
 import 'package:charity_game/utils/dimens.dart';
 import 'package:charity_game/utils/moonicons.dart';
@@ -201,7 +202,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
           switch (resource.status) {
             case Status.SUCCESS:
               final project = resource.data;
-              return _buildDescriptionColumn(project);
+              return _buildDescriptionExpandable(project);
             case Status.LOADING:
             case Status.ERROR:
               return SizedBox();
@@ -209,17 +210,58 @@ class _ProjectScreenState extends State<ProjectScreen> {
         });
   }
 
-  Widget _buildDescriptionColumn(Project project) {
+  Widget _buildDescriptionExpandable(Project project) {
     final summary = _buildDescriptionCard('Summary', project.summary);
-    final challenge = _buildDescriptionCard('Challenge', project.need);
     final activities = _buildDescriptionCard('Activities', project.activities);
+    final challenge = _buildDescriptionCard('Challenge', project.need);
     final longTermImpact =
         _buildDescriptionCard('Long-term impact', project.longTermImpact);
 
+    final collapsed = summary;
+
+    final expanded = Column(
+      children: [
+        summary,
+        activities,
+        challenge,
+        longTermImpact,
+      ],
+    );
+
     return Padding(
       padding: const EdgeInsets.all(Dimens.defaultSpacing),
-      child: Column(
-        children: [summary, challenge, activities, longTermImpact],
+      child: ExpandableNotifier(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expandable(
+              collapsed: collapsed,
+              expanded: expanded,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Builder(
+                  builder: (context) {
+                    final controller = ExpandableController.of(context);
+                    return MaterialButton(
+                      child: Text(
+                        controller.expanded ? 'HIDE' : 'READ MORE',
+                        style: Theme.of(context)
+                            .textTheme
+                            .button
+                            .copyWith(color: Colors.deepPurple),
+                      ),
+                      onPressed: () {
+                        controller.toggle();
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -241,15 +283,10 @@ class _ProjectScreenState extends State<ProjectScreen> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(
-            bottom: Dimens.defaultSpacing,
-          ),
-          child: Text(
-            content,
-            style: TextStyle(
-              fontSize: 15.0,
-            ),
+        Text(
+          content,
+          style: TextStyle(
+            fontSize: 15.0,
           ),
         ),
       ],
