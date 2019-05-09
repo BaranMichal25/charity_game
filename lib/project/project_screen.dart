@@ -211,11 +211,14 @@ class _ProjectScreenState extends State<ProjectScreen> {
   }
 
   Widget _buildDescriptionExpandable(Project project) {
-    final summary = _buildDescriptionCard('Summary', project.summary);
-    final activities = _buildDescriptionCard('Activities', project.activities);
-    final challenge = _buildDescriptionCard('Challenge', project.need);
-    final longTermImpact =
-        _buildDescriptionCard('Long-term impact', project.longTermImpact);
+    final summary = _buildDescriptionCard('Summary', project.summary,
+        Dimens.defaultSpacing, Dimens.doubleDefaultSpacing);
+    final activities = _buildDescriptionCard('Activities', project.activities,
+        Dimens.defaultSpacing, Dimens.doubleDefaultSpacing);
+    final challenge = _buildDescriptionCard('Challenge', project.need,
+        Dimens.defaultSpacing, Dimens.doubleDefaultSpacing);
+    final longTermImpact = _buildDescriptionCard(
+        'Long-term impact', project.longTermImpact, Dimens.defaultSpacing, 0);
 
     final collapsed = summary;
 
@@ -229,64 +232,71 @@ class _ProjectScreenState extends State<ProjectScreen> {
     );
 
     return Padding(
-      padding: const EdgeInsets.all(Dimens.defaultSpacing),
-      child: ExpandableNotifier(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expandable(
-              collapsed: collapsed,
-              expanded: expanded,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+      padding: const EdgeInsets.all(Dimens.halfDefaultSpacing),
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: Padding(
+          padding: const EdgeInsets.all(Dimens.halfDefaultSpacing),
+          child: ExpandableNotifier(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Builder(
-                  builder: (context) {
-                    final controller = ExpandableController.of(context);
-                    return MaterialButton(
-                      child: Text(
-                        controller.expanded ? 'HIDE' : 'READ MORE',
-                        style: Theme.of(context)
-                            .textTheme
-                            .button
-                            .copyWith(color: Colors.deepPurple),
-                      ),
-                      onPressed: () {
-                        controller.toggle();
+                Expandable(
+                  collapsed: collapsed,
+                  expanded: expanded,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Builder(
+                      builder: (context) {
+                        final controller = ExpandableController.of(context);
+                        return MaterialButton(
+                          child: Text(
+                            controller.expanded ? 'HIDE' : 'READ MORE',
+                            style: Theme.of(context)
+                                .textTheme
+                                .button
+                                .copyWith(color: Colors.deepPurple),
+                          ),
+                          onPressed: () {
+                            controller.toggle();
+                          },
+                        );
                       },
-                    );
-                  },
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildDescriptionCard(String title, String content) {
+  Widget _buildDescriptionCard(
+      String title, String content, double topPadding, double bottomPadding) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            top: Dimens.defaultSpacing,
-            bottom: Dimens.defaultSpacing,
-          ),
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-            ),
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        Text(
-          content,
-          style: TextStyle(
-            fontSize: 15.0,
+        Padding(
+          padding: EdgeInsets.only(
+            top: topPadding,
+            bottom: bottomPadding,
+          ),
+          child: Text(
+            content,
+            style: TextStyle(
+              fontSize: 15.0,
+            ),
           ),
         ),
       ],
