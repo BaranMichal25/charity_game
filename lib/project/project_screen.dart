@@ -345,7 +345,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
           width: constraints.maxWidth,
           animation: true,
           lineHeight: 20.0,
-          animationDuration: 2000,
+          animationDuration: 1500,
           percent: percent,
           center: Text(percentText),
           linearStrokeCap: LinearStrokeCap.roundAll,
