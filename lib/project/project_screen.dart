@@ -211,23 +211,19 @@ class _ProjectScreenState extends State<ProjectScreen> {
   }
 
   Widget _buildDescriptionExpandable(Project project) {
-    final summary = _buildDescriptionCard('Summary', project.summary,
-        Dimens.defaultSpacing, Dimens.doubleDefaultSpacing);
-    final activities = _buildDescriptionCard('Activities', project.activities,
-        Dimens.defaultSpacing, Dimens.doubleDefaultSpacing);
-    final challenge = _buildDescriptionCard('Challenge', project.need,
-        Dimens.defaultSpacing, Dimens.doubleDefaultSpacing);
-    final longTermImpact = _buildDescriptionCard(
-        'Long-term impact', project.longTermImpact, Dimens.defaultSpacing, 0);
-
-    final collapsed = summary;
+    final collapsed = _buildDescriptionCard('Summary', project.summary,
+        Dimens.defaultSpacing, 0);
 
     final expanded = Column(
       children: [
-        summary,
-        activities,
-        challenge,
-        longTermImpact,
+        _buildDescriptionCard('Summary', project.summary, Dimens.defaultSpacing,
+            Dimens.doubleDefaultSpacing),
+        _buildDescriptionCard('Activities', project.activities,
+            Dimens.defaultSpacing, Dimens.doubleDefaultSpacing),
+        _buildDescriptionCard('Challenge', project.need,
+            Dimens.defaultSpacing, Dimens.doubleDefaultSpacing),
+        _buildDescriptionCard(
+            'Long-term impact', project.longTermImpact, Dimens.defaultSpacing, 0),
       ],
     );
 
@@ -283,8 +279,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
         Text(
           title,
           style: TextStyle(
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
+            fontSize: 20.0,
           ),
         ),
         Padding(
