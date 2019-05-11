@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:expandable/expandable.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:intl/intl.dart';
 import 'package:charity_game/data/projects/project.dart';
 import 'package:charity_game/utils/dimens.dart';
 import 'package:charity_game/utils/moonicons.dart';
@@ -319,20 +320,22 @@ class _ProjectScreenState extends State<ProjectScreen> {
   }
 
   Widget _buildDonationStatusCard(Project project) {
+    final formatter =
+        NumberFormat.currency(locale: "en_US", symbol: "\$", decimalDigits: 0);
     final percent = project.funding / project.goal;
     final percentText = (100 * percent).toInt().toString() + "%";
 
     final fundingStatusText = RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-        text: "${project.funding.toStringAsFixed(0)}\$",
+        text: formatter.format(project.funding),
         style: TextStyle(
           fontSize: 20.0,
           color: Colors.green,
         ),
         children: [
           TextSpan(
-            text: " of ${project.goal.toStringAsFixed(0)}\$",
+            text: " of ${formatter.format(project.goal)}",
             style: TextStyle(fontSize: 15.0, color: Colors.black),
           ),
         ],
