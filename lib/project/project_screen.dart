@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:expandable/expandable.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:charity_game/data/projects/project.dart';
 import 'package:charity_game/utils/dimens.dart';
 import 'package:charity_game/utils/moonicons.dart';
@@ -52,6 +53,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
           _buildImageGallery(),
           _buildProjectDetails(),
           _buildProjectDescription(),
+          _buildDonationStatus(),
         ],
       ),
     );
@@ -211,8 +213,8 @@ class _ProjectScreenState extends State<ProjectScreen> {
   }
 
   Widget _buildDescriptionExpandable(Project project) {
-    final collapsed = _buildDescriptionCard('Summary', project.summary,
-        Dimens.defaultSpacing, 0);
+    final collapsed = _buildDescriptionCard(
+        'Summary', project.summary, Dimens.defaultSpacing, 0);
 
     final expanded = Column(
       children: [
@@ -220,10 +222,10 @@ class _ProjectScreenState extends State<ProjectScreen> {
             Dimens.doubleDefaultSpacing),
         _buildDescriptionCard('Activities', project.activities,
             Dimens.defaultSpacing, Dimens.doubleDefaultSpacing),
-        _buildDescriptionCard('Challenge', project.need,
-            Dimens.defaultSpacing, Dimens.doubleDefaultSpacing),
-        _buildDescriptionCard(
-            'Long-term impact', project.longTermImpact, Dimens.defaultSpacing, 0),
+        _buildDescriptionCard('Challenge', project.need, Dimens.defaultSpacing,
+            Dimens.doubleDefaultSpacing),
+        _buildDescriptionCard('Long-term impact', project.longTermImpact,
+            Dimens.defaultSpacing, 0),
       ],
     );
 
@@ -253,7 +255,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                             style: Theme.of(context)
                                 .textTheme
                                 .button
-                                .copyWith(color: Colors.deepPurple),
+                                .copyWith(color: Colors.green),
                           ),
                           onPressed: () {
                             controller.toggle();
@@ -295,6 +297,84 @@ class _ProjectScreenState extends State<ProjectScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildDonationStatus() {
+    return StreamBuilder<Resource<Project>>(
+        initialData: Resource.loading(),
+        stream: _projectBloc.projectStream,
+        builder: (_, AsyncSnapshot<Resource<Project>> snapshot) {
+          final resource = snapshot.data;
+
+          switch (resource.status) {
+            case Status.SUCCESS:
+              final project = resource.data;
+              return _buildDonationStatusCard(project);
+            case Status.LOADING:
+            case Status.ERROR:
+              return SizedBox();
+          }
+        });
+  }
+
+  Widget _buildDonationStatusCard(Project project) {
+    final percent = project.funding / project.goal;
+    final percentText = (100 * percent).toInt().toString() + "%";
+
+    final fundingStatusText = RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+        text: "${project.funding.toStringAsFixed(0)}\$",
+        style: TextStyle(
+          fontSize: 20.0,
+          color: Colors.green,
+        ),
+        children: [
+          TextSpan(
+            text: " of ${project.goal.toStringAsFixed(0)}\$",
+            style: TextStyle(fontSize: 15.0, color: Colors.black),
+          ),
+        ],
+      ),
+    );
+
+    final percentIndicator = LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return LinearPercentIndicator(
+          width: constraints.maxWidth,
+          animation: true,
+          lineHeight: 20.0,
+          animationDuration: 2000,
+          percent: percent,
+          center: Text(percentText),
+          linearStrokeCap: LinearStrokeCap.roundAll,
+          backgroundColor: const Color(0xFFd5dbd0),
+          progressColor: Colors.lightGreen,
+        );
+      },
+    );
+
+    final donationsText = Text(
+      project.numberOfDonations.toString() + " donations",
+      style: TextStyle(fontSize: 15.0),
+    );
+
+    return Padding(
+      padding: const EdgeInsets.all(Dimens.halfDefaultSpacing),
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: Padding(
+          padding: const EdgeInsets.all(Dimens.halfDefaultSpacing),
+          child: Column(
+            children: [
+              fundingStatusText,
+              percentIndicator,
+              donationsText,
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
