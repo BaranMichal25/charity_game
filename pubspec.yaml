@@ -26,6 +26,7 @@ dependencies:
   expandable: 2.1.1
   percent_indicator: 1.0.16
   intl: 0.15.8
+  font_awesome_flutter: 8.4.0
 
 dev_dependencies:
   flutter_test:
