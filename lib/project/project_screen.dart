@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:expandable/expandable.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:intl/intl.dart';
 import 'package:charity_game/data/projects/project.dart';
@@ -25,6 +26,9 @@ class ProjectScreen extends StatefulWidget {
 
 class _ProjectScreenState extends State<ProjectScreen> {
   ProjectBloc _projectBloc;
+
+  final currencyFormatter =
+      NumberFormat.currency(locale: "en_US", symbol: "\$", decimalDigits: 0);
 
   @override
   void initState() {
@@ -55,6 +59,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
           _buildProjectDetails(),
           _buildProjectDescription(),
           _buildDonationStatus(),
+          _buildDonationOptions(),
         ],
       ),
     );
@@ -320,22 +325,20 @@ class _ProjectScreenState extends State<ProjectScreen> {
   }
 
   Widget _buildDonationStatusCard(Project project) {
-    final formatter =
-        NumberFormat.currency(locale: "en_US", symbol: "\$", decimalDigits: 0);
     final percent = project.funding / project.goal;
     final percentText = (100 * percent).toInt().toString() + "%";
 
     final fundingStatusText = RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-        text: formatter.format(project.funding),
+        text: currencyFormatter.format(project.funding),
         style: TextStyle(
           fontSize: 20.0,
           color: Colors.green,
         ),
         children: [
           TextSpan(
-            text: " of ${formatter.format(project.goal)}",
+            text: " of ${currencyFormatter.format(project.goal)}",
             style: TextStyle(fontSize: 15.0, color: Colors.black),
           ),
         ],
@@ -378,6 +381,157 @@ class _ProjectScreenState extends State<ProjectScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildDonationOptions() {
+    return StreamBuilder<Resource<Project>>(
+        initialData: Resource.loading(),
+        stream: _projectBloc.projectStream,
+        builder: (_, AsyncSnapshot<Resource<Project>> snapshot) {
+          final resource = snapshot.data;
+
+          switch (resource.status) {
+            case Status.SUCCESS:
+              final project = resource.data;
+              return _buildDonationOptionsCard(project);
+            case Status.LOADING:
+            case Status.ERROR:
+              return SizedBox();
+          }
+        });
+  }
+
+  Widget _buildDonationOptionsCard(Project project) {
+    final border = BorderSide(
+      color: const Color(0xFFBABABA),
+      width: 1.0,
+      style: BorderStyle.solid,
+    );
+    return Padding(
+      padding: const EdgeInsets.all(Dimens.halfDefaultSpacing),
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: Padding(
+          padding: const EdgeInsets.all(Dimens.halfDefaultSpacing),
+          child: Column(
+            children: [
+              Table(
+                border: TableBorder(
+                  bottom: border,
+                  horizontalInside: border,
+                ),
+                columnWidths: {
+                  0: IntrinsicColumnWidth(),
+                  1: FlexColumnWidth(1.0),
+                  2: FixedColumnWidth(50.0)
+                },
+                children: [
+                  for (var option in project.donationOptions)
+                    _buildDonationOptionRow(option.amount, option.description),
+                ],
+              ),
+              _buildCustomDonationRow(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  TableRow _buildDonationOptionRow(int amount, String description) {
+    return TableRow(
+      children: [
+        TableCell(
+          verticalAlignment: TableCellVerticalAlignment.middle,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: Dimens.oneThirdDefaultSpacing),
+            child: Text(
+              currencyFormatter.format(amount),
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18.0),
+            ),
+          ),
+        ),
+        Container(
+          alignment: Alignment(0.0, 0.0),
+          constraints: BoxConstraints(minHeight: 60.0),
+          padding: const EdgeInsets.symmetric(
+              vertical: Dimens.halfDefaultSpacing,
+              horizontal: Dimens.oneThirdDefaultSpacing),
+          child: Text(
+            description,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 15.0),
+          ),
+        ),
+        TableCell(
+          verticalAlignment: TableCellVerticalAlignment.middle,
+          child: Material(
+            shape: const CircleBorder(),
+            color: Colors.lightGreen,
+            child: InkWell(
+              customBorder: const CircleBorder(),
+              child: Padding(
+                padding: const EdgeInsets.all(Dimens.defaultSpacing),
+                child: Icon(
+                  FontAwesomeIcons.handHoldingUsd,
+                  color: Colors.white,
+                ),
+              ),
+              onTap: () {
+                print("Donation option: $amount, $description");
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCustomDonationRow() {
+    return Row(
+      children: [
+        Expanded(
+            child: Padding(
+          padding: const EdgeInsets.fromLTRB(
+            Dimens.oneThirdDefaultSpacing,
+            Dimens.halfDefaultSpacing,
+            Dimens.defaultSpacing,
+            Dimens.halfDefaultSpacing,
+          ),
+          child: TextField(
+            style: TextStyle(fontSize: 18.0),
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              //errorText: "ZIP-Code is too short",
+              labelText: "Other amount",
+            ),
+          ),
+        )),
+        SizedBox(
+          width: 50.0,
+          height: 60.0,
+          child: Material(
+            shape: const CircleBorder(),
+            color: Colors.lightGreen,
+            child: InkWell(
+              customBorder: const CircleBorder(),
+              child: Padding(
+                padding: const EdgeInsets.all(Dimens.defaultSpacing),
+                child: Icon(
+                  FontAwesomeIcons.handHoldingUsd,
+                  color: Colors.white,
+                ),
+              ),
+              onTap: () {
+                print("Custom Donation option");
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
