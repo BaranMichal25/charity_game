@@ -136,13 +136,19 @@ class _ProjectScreenState extends State<ProjectScreen> {
             case Status.SUCCESS:
               final project = resource.data;
               return Padding(
-                padding: const EdgeInsets.all(Dimens.defaultSpacing),
-                child: Column(
-                  children: [
-                    _buildOrganizationRow(project),
-                    SizedBox(height: Dimens.defaultSpacing),
-                    _buildThemeAndCountryRow(project),
-                  ],
+                padding: const EdgeInsets.all(Dimens.halfDefaultSpacing),
+                child: Card(
+                  clipBehavior: Clip.antiAlias,
+                  child: Padding(
+                    padding: const EdgeInsets.all(Dimens.halfDefaultSpacing),
+                    child: Column(
+                      children: [
+                        _buildOrganizationRow(project),
+                        SizedBox(height: Dimens.defaultSpacing),
+                        _buildThemeAndCountryRow(project),
+                      ],
+                    ),
+                  ),
                 ),
               );
             //return Text(resource.data.country);
