@@ -328,6 +328,12 @@ class _ProjectScreenState extends State<ProjectScreen> {
     final percent = project.funding / project.goal;
     final percentText = (100 * percent).toInt().toString() + "%";
 
+    Color percentColor;
+    if (percent > 0.51)
+      percentColor = Colors.white;
+    else
+      percentColor = Colors.black;
+
     final fundingStatusText = RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
@@ -353,7 +359,10 @@ class _ProjectScreenState extends State<ProjectScreen> {
           lineHeight: 20.0,
           animationDuration: 1500,
           percent: percent,
-          center: Text(percentText),
+          center: Text(
+            percentText,
+            style: TextStyle(color: percentColor),
+          ),
           linearStrokeCap: LinearStrokeCap.roundAll,
           backgroundColor: const Color(0xFFd5dbd0),
           progressColor: Colors.lightGreen,
