@@ -537,11 +537,11 @@ class _ProjectScreenState extends State<ProjectScreen> {
             Dimens.halfDefaultSpacing,
           ),
           child: TextField(
-            style: TextStyle(fontSize: 18.0),
+            style: TextStyle(fontSize: 16.0),
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               //errorText: "ZIP-Code is too short",
-              labelText: "Other amount",
+              labelText: 'Other amount',
             ),
           ),
         )),
