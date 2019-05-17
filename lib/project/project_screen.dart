@@ -352,13 +352,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
 
   Widget _buildDonationStatusCard(Project project) {
     final percent = project.funding / project.goal;
-    final percentText = (100 * percent).toInt().toString() + "%";
-
-    Color percentColor;
-    if (percent > 0.51)
-      percentColor = Colors.white;
-    else
-      percentColor = Colors.black;
+    final percentText = (100 * percent).toInt().toString() + '%';
 
     final fundingStatusText = RichText(
       textAlign: TextAlign.center,
@@ -367,38 +361,44 @@ class _ProjectScreenState extends State<ProjectScreen> {
         style: TextStyle(
           fontSize: 20.0,
           color: Colors.blueAccent,
+          fontWeight: FontWeight.bold,
         ),
         children: [
           TextSpan(
-            text: " of ${currencyFormatter.format(project.goal)}",
-            style: TextStyle(fontSize: 15.0, color: Colors.black),
+            text: ' of ${currencyFormatter.format(project.goal)}',
+            style: TextStyle(
+              fontSize: 16.0,
+              color: Colors.black,
+              fontWeight: FontWeight.normal,
+            ),
           ),
         ],
       ),
     );
 
-    final percentIndicator = LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        return LinearPercentIndicator(
-          width: constraints.maxWidth,
-          animation: true,
-          lineHeight: 20.0,
-          animationDuration: 1500,
-          percent: percent,
-          center: Text(
-            percentText,
-            style: TextStyle(color: percentColor),
-          ),
-          linearStrokeCap: LinearStrokeCap.roundAll,
-          backgroundColor: const Color(0xFFd5dbd0),
-          progressColor: Colors.blueAccent,
-        );
-      },
+    final donationsText = Text(
+      project.numberOfDonations.toString() + ' donations',
+      style: TextStyle(fontSize: 16.0),
     );
 
-    final donationsText = Text(
-      project.numberOfDonations.toString() + " donations",
-      style: TextStyle(fontSize: 15.0),
+    final toGoText = Text(
+      currencyFormatter.format(project.remaining) + ' to go',
+      style: TextStyle(fontSize: 16.0),
+    );
+
+    final percentIndicator = CircularPercentIndicator(
+      radius: 150.0,
+      animation: true,
+      lineWidth: 15.0,
+      animationDuration: 1500,
+      percent: percent,
+      center: Text(
+        percentText,
+        style: TextStyle(fontSize: 16.0),
+      ),
+      circularStrokeCap: CircularStrokeCap.round,
+      backgroundColor: const Color(0xFFd5dbd0),
+      progressColor: Colors.blueAccent,
     );
 
     return Padding(
@@ -407,11 +407,21 @@ class _ProjectScreenState extends State<ProjectScreen> {
         clipBehavior: Clip.antiAlias,
         child: Padding(
           padding: const EdgeInsets.all(Dimens.halfDefaultSpacing),
-          child: Column(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              fundingStatusText,
+              Column(
+                children: [
+                  fundingStatusText,
+                  Padding(
+                    padding:
+                        const EdgeInsets.all(Dimens.oneThirdDefaultSpacing),
+                    child: donationsText,
+                  ),
+                  toGoText,
+                ],
+              ),
               percentIndicator,
-              donationsText,
             ],
           ),
         ),
