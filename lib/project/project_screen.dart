@@ -183,24 +183,44 @@ class _ProjectScreenState extends State<ProjectScreen> {
 
   Widget _buildThemeAndCountryRow(Project project) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _buildIconText(MoonIcons.themes, project.themeName),
-        _buildIconText(Icons.public, project.country),
+        Expanded(
+          child: _buildIconText(
+            MoonIcons.themes,
+            project.themeName,
+            MainAxisAlignment.start,
+          ),
+        ),
+        Expanded(
+          child: _buildIconText(
+            Icons.public,
+            project.country,
+            MainAxisAlignment.end,
+          ),
+        ),
       ],
     );
   }
 
-  Widget _buildIconText(IconData icon, String title) {
+  Widget _buildIconText(
+    IconData icon,
+    String title,
+    MainAxisAlignment mainAxisAlignment,
+  ) {
     return Row(
+      mainAxisAlignment: mainAxisAlignment,
       children: [
         Icon(icon),
-        Padding(
-          padding: const EdgeInsets.only(left: Dimens.oneThirdDefaultSpacing),
-          child: Text(title,
+        Flexible(
+          child: Padding(
+            padding: const EdgeInsets.only(left: Dimens.oneThirdDefaultSpacing),
+            child: Text(
+              title,
               style: TextStyle(
                 fontSize: 16.0,
-              )),
+              ),
+            ),
+          ),
         ),
       ],
     );
