@@ -17,7 +17,7 @@ class Styles {
 
   static ThemeData get theme => _theme;
 
-  static Color get accentColor => Colors.green;
+  static Color get accentColor => Colors.amber;
 
   static Color get primaryColor => Colors.blue[700];
 

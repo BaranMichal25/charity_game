@@ -287,7 +287,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                             style: Theme.of(context)
                                 .textTheme
                                 .button
-                                .copyWith(color: Colors.green),
+                                .copyWith(color: Colors.orange),
                           ),
                           onPressed: () {
                             controller.toggle();
@@ -366,7 +366,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
         text: currencyFormatter.format(project.funding),
         style: TextStyle(
           fontSize: 20.0,
-          color: Colors.green,
+          color: Colors.blueAccent,
         ),
         children: [
           TextSpan(
@@ -391,7 +391,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
           ),
           linearStrokeCap: LinearStrokeCap.roundAll,
           backgroundColor: const Color(0xFFd5dbd0),
-          progressColor: Colors.lightGreen,
+          progressColor: Colors.blueAccent,
         );
       },
     );
@@ -506,15 +506,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
           child: Material(
             shape: const CircleBorder(),
             color: Colors.lightGreen,
-            child: InkWell(
-              customBorder: const CircleBorder(),
-              child: Padding(
-                padding: const EdgeInsets.all(Dimens.defaultSpacing),
-                child: Icon(
-                  FontAwesomeIcons.handHoldingUsd,
-                  color: Colors.white,
-                ),
-              ),
+            child: _buildDonateButton(
               onTap: () {
                 print("Donation option: $amount, $description");
               },
@@ -548,25 +540,31 @@ class _ProjectScreenState extends State<ProjectScreen> {
         SizedBox(
           width: 50.0,
           height: 60.0,
-          child: Material(
-            shape: const CircleBorder(),
-            color: Colors.lightGreen,
-            child: InkWell(
-              customBorder: const CircleBorder(),
-              child: Padding(
-                padding: const EdgeInsets.all(Dimens.defaultSpacing),
-                child: Icon(
-                  FontAwesomeIcons.handHoldingUsd,
-                  color: Colors.white,
-                ),
-              ),
-              onTap: () {
-                print("Custom Donation option");
-              },
-            ),
+          child: _buildDonateButton(
+            onTap: () {
+              print("Custom Donation option");
+            },
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildDonateButton({GestureTapCallback onTap}) {
+    return Material(
+      shape: const CircleBorder(),
+      color: Colors.amber,
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        child: Padding(
+          padding: const EdgeInsets.all(Dimens.defaultSpacing),
+          child: Icon(
+            FontAwesomeIcons.handHoldingUsd,
+            color: Colors.white,
+          ),
+        ),
+        onTap: onTap,
+      ),
     );
   }
 }
