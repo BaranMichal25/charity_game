@@ -96,7 +96,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
       links.length,
       (int index) {
         return Padding(
-          padding: EdgeInsets.all(5.0),
+          padding: const EdgeInsets.all(5.0),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5.0),
             child: Image.network(
@@ -135,20 +135,16 @@ class _ProjectScreenState extends State<ProjectScreen> {
               );
             case Status.SUCCESS:
               final project = resource.data;
-              return Padding(
+              return Container(
+                decoration: _buildSectionDecoration(),
                 padding: const EdgeInsets.all(Dimens.halfDefaultSpacing),
-                child: Card(
-                  clipBehavior: Clip.antiAlias,
-                  child: Padding(
-                    padding: const EdgeInsets.all(Dimens.halfDefaultSpacing),
-                    child: Column(
-                      children: [
-                        _buildOrganizationRow(project),
-                        SizedBox(height: Dimens.defaultSpacing),
-                        _buildThemeAndCountryRow(project),
-                      ],
-                    ),
-                  ),
+                margin: const EdgeInsets.all(Dimens.halfDefaultSpacing),
+                child: Column(
+                  children: [
+                    _buildOrganizationRow(project),
+                    SizedBox(height: Dimens.defaultSpacing),
+                    _buildThemeAndCountryRow(project),
+                  ],
                 ),
               );
             //return Text(resource.data.country);
@@ -261,45 +257,41 @@ class _ProjectScreenState extends State<ProjectScreen> {
       ],
     );
 
-    return Padding(
+    return Container(
+      decoration: _buildSectionDecoration(),
       padding: const EdgeInsets.all(Dimens.halfDefaultSpacing),
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        child: Padding(
-          padding: const EdgeInsets.all(Dimens.halfDefaultSpacing),
-          child: ExpandableNotifier(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      margin: const EdgeInsets.all(Dimens.halfDefaultSpacing),
+      child: ExpandableNotifier(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expandable(
+              collapsed: collapsed,
+              expanded: expanded,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Expandable(
-                  collapsed: collapsed,
-                  expanded: expanded,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Builder(
-                      builder: (context) {
-                        final controller = ExpandableController.of(context);
-                        return MaterialButton(
-                          child: Text(
-                            controller.expanded ? 'HIDE' : 'READ MORE',
-                            style: Theme.of(context)
-                                .textTheme
-                                .button
-                                .copyWith(color: Colors.orange),
-                          ),
-                          onPressed: () {
-                            controller.toggle();
-                          },
-                        );
+                Builder(
+                  builder: (context) {
+                    final controller = ExpandableController.of(context);
+                    return MaterialButton(
+                      child: Text(
+                        controller.expanded ? 'HIDE' : 'READ MORE',
+                        style: Theme.of(context)
+                            .textTheme
+                            .button
+                            .copyWith(color: Colors.orange),
+                      ),
+                      onPressed: () {
+                        controller.toggle();
                       },
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ],
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -401,30 +393,25 @@ class _ProjectScreenState extends State<ProjectScreen> {
       progressColor: Colors.blueAccent,
     );
 
-    return Padding(
+    return Container(
+      decoration: _buildSectionDecoration(),
       padding: const EdgeInsets.all(Dimens.halfDefaultSpacing),
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        child: Padding(
-          padding: const EdgeInsets.all(Dimens.halfDefaultSpacing),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      margin: const EdgeInsets.all(Dimens.halfDefaultSpacing),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Column(
             children: [
-              Column(
-                children: [
-                  fundingStatusText,
-                  Padding(
-                    padding:
-                        const EdgeInsets.all(Dimens.oneThirdDefaultSpacing),
-                    child: donationsText,
-                  ),
-                  toGoText,
-                ],
+              fundingStatusText,
+              Padding(
+                padding: const EdgeInsets.all(Dimens.oneThirdDefaultSpacing),
+                child: donationsText,
               ),
-              percentIndicator,
+              toGoText,
             ],
           ),
-        ),
+          percentIndicator,
+        ],
       ),
     );
   }
@@ -453,33 +440,29 @@ class _ProjectScreenState extends State<ProjectScreen> {
       width: 1.0,
       style: BorderStyle.solid,
     );
-    return Padding(
+    return Container(
+      decoration: _buildSectionDecoration(),
       padding: const EdgeInsets.all(Dimens.halfDefaultSpacing),
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        child: Padding(
-          padding: const EdgeInsets.all(Dimens.halfDefaultSpacing),
-          child: Column(
+      margin: const EdgeInsets.all(Dimens.halfDefaultSpacing),
+      child: Column(
+        children: [
+          Table(
+            border: TableBorder(
+              bottom: border,
+              horizontalInside: border,
+            ),
+            columnWidths: {
+              0: IntrinsicColumnWidth(),
+              1: FlexColumnWidth(1.0),
+              2: FixedColumnWidth(50.0)
+            },
             children: [
-              Table(
-                border: TableBorder(
-                  bottom: border,
-                  horizontalInside: border,
-                ),
-                columnWidths: {
-                  0: IntrinsicColumnWidth(),
-                  1: FlexColumnWidth(1.0),
-                  2: FixedColumnWidth(50.0)
-                },
-                children: [
-                  for (var option in project.donationOptions)
-                    _buildDonationOptionRow(option.amount, option.description),
-                ],
-              ),
-              _buildCustomDonationRow(),
+              for (var option in project.donationOptions)
+                _buildDonationOptionRow(option.amount, option.description),
             ],
           ),
-        ),
+          _buildCustomDonationRow(),
+        ],
       ),
     );
   }
@@ -575,6 +558,16 @@ class _ProjectScreenState extends State<ProjectScreen> {
         ),
         onTap: onTap,
       ),
+    );
+  }
+
+  Decoration _buildSectionDecoration() {
+    return BoxDecoration(
+      color: Colors.white,
+      border: Border.all(
+        color: const Color(0xFFd5dbd0),
+      ),
+      borderRadius: BorderRadius.all(Radius.circular(5.0)),
     );
   }
 }
