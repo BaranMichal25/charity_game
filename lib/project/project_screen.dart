@@ -14,6 +14,7 @@ import 'package:charity_game/injection/service_location.dart';
 import 'package:charity_game/project/project_bloc.dart';
 import 'package:charity_game/utils/resource.dart';
 import 'package:flutter/material.dart';
+import 'dart:math' as Math;
 
 class ProjectScreen extends StatefulWidget {
   final FeaturedProject project;
@@ -383,7 +384,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
       animation: true,
       lineWidth: 15.0,
       animationDuration: 1500,
-      percent: percent,
+      percent: Math.min(1.0, percent),
       center: Text(
         percentText,
         style: TextStyle(fontSize: 16.0),
