@@ -282,7 +282,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                         style: Theme.of(context)
                             .textTheme
                             .button
-                            .copyWith(color: Colors.orange),
+                            .copyWith(color: Styles.accentTextColor),
                       ),
                       onPressed: () {
                         controller.toggle();
@@ -547,7 +547,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
   Widget _buildDonateButton({GestureTapCallback onTap}) {
     return Material(
       shape: const CircleBorder(),
-      color: Colors.amber,
+      color: Styles.accentColor,
       child: InkWell(
         customBorder: const CircleBorder(),
         child: Padding(

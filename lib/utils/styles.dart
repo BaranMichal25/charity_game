@@ -19,11 +19,11 @@ class Styles {
 
   static Color get accentColor => Colors.amber;
 
+  static Color get accentTextColor => Colors.orange;
+
   static Color get primaryColor => Colors.blue[700];
 
   static Color get primaryTextColor => Colors.white;
-
-  static Color get accentTextColor => Colors.white;
 
   static Color get darkGrey => Colors.grey[700];
 
