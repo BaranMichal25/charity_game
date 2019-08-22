@@ -890,4 +890,4 @@ DerivedData/
 
 
 ### Sensitive data
-/lib/data/global_giving_api_key.dart
+global_giving_api_key.dart
