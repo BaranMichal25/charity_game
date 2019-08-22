@@ -7,7 +7,7 @@ import 'package:charity_game/project/project_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
-GetIt sl = GetIt();
+GetIt sl = GetIt.instance;
 
 void setupServiceLocator() {
   sl.registerLazySingleton<http.Client>(() => http.Client());

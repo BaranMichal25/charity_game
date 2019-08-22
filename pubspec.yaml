@@ -1,12 +1,6 @@
 name: charity_game
 description: Platform designed for building habit of donating to charities
 
-# The following defines the version and build number for your application.
-# A version number is three numbers separated by dots, like 1.2.43
-# followed by an optional build number separated by a +.
-# Both the version and the builder number may be overridden in flutter
-# build by specifying --build-name and --build-number, respectively.
-# Read more about versioning at semver.org.
 version: 1.0.0+1
 
 environment:
@@ -17,31 +11,23 @@ dependencies:
     sdk: flutter
 
   http: 0.12.0+1
-  get_it: 1.0.3
-  rxdart: 0.22.0
+  get_it: 2.0.1
+  rxdart: 0.22.1+1
   shimmer: 1.0.0
-  carousel_slider: ^1.3.0
-  flutter_spinkit: ^3.1.0
-  auto_size_text: 1.1.2
-  expandable: 2.1.1
-  percent_indicator: 1.0.16
+  carousel_slider: 1.3.0
+  flutter_spinkit: 4.0.0
+  auto_size_text: 2.1.0
+  expandable: 3.0.0+1
+  percent_indicator: 2.1.1+1
   intl: 0.15.8
-  font_awesome_flutter: 8.4.0
+  font_awesome_flutter: 8.5.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-
-# For information on the generic Dart part of this file, see the
-# following page: https://www.dartlang.org/tools/pub/pubspec
-
-# The following section is specific to Flutter.
 flutter:
 
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
 
   assets:
@@ -51,29 +37,3 @@ flutter:
     - family: iconmoon
       fonts:
         - asset: assets/icons/icomoon.ttf
-
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.io/assets-and-images/#resolution-aware.
-
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.io/assets-and-images/#from-packages
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.io/custom-fonts/#from-packages
