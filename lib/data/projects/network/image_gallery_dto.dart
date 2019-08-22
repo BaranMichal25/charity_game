@@ -4,12 +4,11 @@ class ImageGalleryDto {
   ImageGalleryDto({this.images});
 
   ImageGalleryDto.fromJson(Map<String, dynamic> json) {
-    images =
-        json['images'] != null ? new ImagesDto.fromJson(json['images']) : null;
+    images = json['images'] != null ? ImagesDto.fromJson(json['images']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.images != null) {
       data['images'] = this.images.toJson();
     }
@@ -39,15 +38,15 @@ class ImagesDto {
 
   ImagesDto.fromJson(Map<String, dynamic> json) {
     if (json['image'] != null) {
-      image = new List<ImageDto>();
+      image = List<ImageDto>();
       json['image'].forEach((v) {
-        image.add(new ImageDto.fromJson(v));
+        image.add(ImageDto.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.image != null) {
       data['image'] = this.image.map((v) => v.toJson()).toList();
     }
@@ -81,15 +80,15 @@ class ImageDto {
     title = json['title'];
     id = json['id'];
     if (json['imagelink'] != null) {
-      imagelink = new List<ImageLinkDto>();
+      imagelink = List<ImageLinkDto>();
       json['imagelink'].forEach((v) {
-        imagelink.add(new ImageLinkDto.fromJson(v));
+        imagelink.add(ImageLinkDto.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['title'] = this.title;
     data['id'] = this.id;
     if (this.imagelink != null) {
@@ -128,7 +127,7 @@ class ImageLinkDto {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['url'] = this.url;
     data['size'] = this.size;
     return data;

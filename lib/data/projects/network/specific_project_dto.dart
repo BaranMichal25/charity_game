@@ -7,11 +7,11 @@ class SpecificProjectDto {
 
   SpecificProjectDto.fromJson(Map<String, dynamic> json) {
     project =
-    json['project'] != null ? new SpecificProjectProjectDto.fromJson(json['project']) : null;
+    json['project'] != null ? SpecificProjectProjectDto.fromJson(json['project']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.project != null) {
       data['project'] = this.project.toJson();
     }
@@ -58,7 +58,7 @@ class SpecificProjectProjectDto {
   SpecificProjectProjectDto.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     organization = json['organization'] != null
-        ? new SpecificProjectOrganizationDto.fromJson(json['organization'])
+        ? SpecificProjectOrganizationDto.fromJson(json['organization'])
         : null;
     title = json['title'];
     summary = json['summary'];
@@ -74,12 +74,12 @@ class SpecificProjectProjectDto {
     activities = json['activities'];
     imageLink = json['imageLink'];
     donationOptions = json['donationOptions'] != null
-        ? new DonationOptionsDto.fromJson(json['donationOptions'])
+        ? DonationOptionsDto.fromJson(json['donationOptions'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     if (this.organization != null) {
       data['organization'] = this.organization.toJson();
@@ -133,7 +133,7 @@ class SpecificProjectOrganizationDto {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
     data['url'] = this.url;

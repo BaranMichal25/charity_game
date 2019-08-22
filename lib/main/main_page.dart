@@ -34,24 +34,24 @@ class _MainPageState extends State<MainPage> {
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
-            icon: new Icon(Icons.home),
-            title: new Text(Strings.home),
+            icon: Icon(Icons.home),
+            title: Text(Strings.home),
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.category),
-            title: new Text(Strings.explore),
+            icon: Icon(Icons.category),
+            title: Text(Strings.explore),
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.history),
-            title: new Text(Strings.history),
+            icon: Icon(Icons.history),
+            title: Text(Strings.history),
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.graphic_eq),
-            title: new Text(Strings.stats),
+            icon: Icon(Icons.graphic_eq),
+            title: Text(Strings.stats),
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.more_horiz),
-            title: new Text(Strings.more),
+            icon: Icon(Icons.more_horiz),
+            title: Text(Strings.more),
           )
         ]);
   }
@@ -89,7 +89,7 @@ class PlaceholderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: Container(
-      child: Text(title, style: new TextStyle(fontSize: 40)),
+      child: Text(title, style: TextStyle(fontSize: 40)),
     ));
   }
 }
