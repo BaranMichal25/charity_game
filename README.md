@@ -2,6 +2,10 @@
 (Unfinished) mobile app for exploring and donating to charities using [GlobalGiving](https://www.globalgiving.org/) API
 
 
+# Screenshots
+<img src="screenshots/screenshot-1.png" width="280px" />   <img src="screenshots/screenshot-2.png" width="280px" />   <img src="screenshots/screenshot-3.png" width="280px" />
+
+
 # License
 ```
    Copyright 2019 Michal Baran
